@@ -7,19 +7,19 @@
 
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/seal_mine_about_logo_margin_top"
         android:layout_marginBottom="@dimen/seal_mine_about_logo_margin_bottom"
-        android:src="@drawable/seal_ic_about_logo" />
+        android:src="@drawable/seal_app_logo" />
 
     <cn.rongcloud.im.ui.view.SettingItemView
         android:id="@+id/siv_update_log"
         android:layout_width="match_parent"
         android:layout_height="@dimen/seal_mine_about_height"
         app:item_content="@string/seal_mine_about_update_log"
-        app:item_divider="true"></cn.rongcloud.im.ui.view.SettingItemView>
+        app:item_divider="true"/>
 
     <cn.rongcloud.im.ui.view.SettingItemView
         android:id="@+id/siv_func_introduce"
@@ -45,6 +45,7 @@
         android:layout_height="@dimen/seal_mine_about_height"
         app:item_content="@string/seal_mine_about_seal_talk_version"
         app:item_divider="true"
+        android:visibility="gone"
         app:item_tag_image="@drawable/seal_ic_new_version"
         app:item_tag_image_height="@dimen/siv_sealtalk_version_tag_height"
         app:item_tag_image_width="@dimen/siv_sealtalk_version_tag_width">
@@ -54,6 +55,7 @@
     <cn.rongcloud.im.ui.view.SettingItemView
         android:id="@+id/siv_sdk_version"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="@dimen/seal_mine_about_height"
         app:item_content="@string/seal_mine_about_sdk_version">
 
