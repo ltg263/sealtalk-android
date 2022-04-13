@@ -17,6 +17,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface FriendService {
@@ -36,7 +37,7 @@ public interface FriendService {
      * @return
      */
     @GET(SealTalkUrl.GET_FRIEND_PROFILE)
-    LiveData<Result<FriendShipInfo>> getFriendInfo(@Path("friendId") String friendId);
+    LiveData<Result<FriendShipInfo>> getFriendInfo(@Query("friendId") String friendId);
 
     /**
      * 同意添加好友
@@ -81,6 +82,11 @@ public interface FriendService {
     @GET(SealTalkUrl.FIND_FRIEND)
     LiveData<Result<SearchFriendInfo>> searchFriend(@QueryMap(encoded = true) Map<String, String> queryMap);
 
+    /**
+     * 删除好友
+     * @param body
+     * @return
+     */
     @POST(SealTalkUrl.DELETE_FREIND)
     LiveData<Result> deleteFriend(@Body RequestBody body);
 

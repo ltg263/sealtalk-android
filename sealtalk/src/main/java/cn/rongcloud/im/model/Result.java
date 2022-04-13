@@ -9,7 +9,7 @@ import cn.rongcloud.im.common.NetConstant;
  */
 public class Result<T> {
     public int code;
-    public T result;
+    public T data;
 
     public Result(){
     }
@@ -27,11 +27,11 @@ public class Result<T> {
     }
 
     public T getResult() {
-        return result;
+        return data;
     }
 
     public void setResult(T result) {
-        this.result = result;
+        this.data = result;
     }
 
     public boolean isSuccess(){

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SealTalk</string>
+    <string name="app_name">趣品谈</string>
     <string name="title_activity_main">MainActivity</string>
     <!-- login-->
     <string name="seal_login_text_new_user">新用户</string>
@@ -130,7 +130,7 @@
     <string name="seal_main_mine_set_account">账号设置</string>
     <string name="seal_main_mine_setting_language">多语言</string>
     <string name="seal_main_mine_feedback">意见反馈</string>
-    <string name="seal_main_mine_about">关于 SealTalk</string>
+    <string name="seal_main_mine_about">关于 趣品谈</string>
     <string name="seal_main_mine_customer_xn">小能客服</string>
     <string name="seal_main_mine_online_custom_service">在线客服</string>
     <string name="seal_userinfo_item_user_portrait">用户头像</string>
@@ -148,7 +148,7 @@
     <string name="seal_mine_about_update_log">更新日志</string>
     <string name="seal_mine_about_function_introduce">功能介绍</string>
     <string name="seal_mine_about_rongcloud_web">官方网站</string>
-    <string name="seal_mine_about_seal_talk_version">SealTalk 版本</string>
+    <string name="seal_mine_about_seal_talk_version">趣品谈 版本</string>
     <string name="seal_mine_about_sdk_version">SDK 版本</string>
     <string name="debug_mode_is_open">debug 模式已开启</string>
     <string name="seal_mine_about_close_debug_mode">关闭 debug 模式</string>

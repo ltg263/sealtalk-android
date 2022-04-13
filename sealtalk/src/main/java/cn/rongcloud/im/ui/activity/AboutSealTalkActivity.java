@@ -122,13 +122,13 @@ public class AboutSealTalkActivity extends TitleBaseActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.siv_update_log:
-                toWeb(getString(R.string.seal_mine_about_update_log), "http://www.rongcloud.cn/changelog");
+//                toWeb(getString(R.string.seal_mine_about_update_log), "http://www.rongcloud.cn/changelog");
                 break;
             case R.id.siv_func_introduce:
-                toWeb(getString(R.string.seal_mine_about_function_introduce), "http://rongcloud.cn/features");
+//                toWeb(getString(R.string.seal_mine_about_function_introduce), "http://rongcloud.cn/features");
                 break;
             case R.id.siv_rongcloud_web:
-                toWeb(getString(R.string.seal_mine_about_rongcloud_web), "http://rongcloud.cn/");
+//                toWeb(getString(R.string.seal_mine_about_rongcloud_web), "http://rongcloud.cn/");
                 break;
             case R.id.siv_sealtalk_version:
                 showDownloadDialog(url);

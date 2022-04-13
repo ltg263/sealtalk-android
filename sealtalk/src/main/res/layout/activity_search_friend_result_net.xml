@@ -47,7 +47,7 @@
             android:ellipsize="end"
             android:textColor="@color/default_sub_text"
             android:textSize="16dp"
-            tools:text="SealTalk 号：sealtalk" />
+            tools:text="趣品谈 号：00" />
 
     </LinearLayout>
 

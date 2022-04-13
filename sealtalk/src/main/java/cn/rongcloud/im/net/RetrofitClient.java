@@ -17,6 +17,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import cn.rongcloud.im.common.NetConstant;
+import cn.rongcloud.im.utils.MyInterceptor;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -85,6 +86,7 @@ public class RetrofitClient {
             OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder()
                     .addInterceptor(new AddHeaderInterceptor(mContext))
                     .addInterceptor(new ReceivedCookiesInterceptor(mContext))
+                    .addInterceptor(new MyInterceptor())
                     .connectTimeout(NetConstant.API_CONNECT_TIME_OUT, TimeUnit.SECONDS)
                     .readTimeout(NetConstant.API_READ_TIME_OUT, TimeUnit.SECONDS)
                     .writeTimeout(NetConstant.API_WRITE_TIME_OUT, TimeUnit.SECONDS);

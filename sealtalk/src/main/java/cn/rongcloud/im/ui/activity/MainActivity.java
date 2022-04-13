@@ -211,6 +211,8 @@ public class MainActivity extends BaseActivity implements MorePopWindow.OnPopWin
 
         // 设置当前的选项为聊天界面
         tabGroupView.setSelected(tabIndex);
+        //隐藏聊天室
+        tabGroupView.getView(2).setVisibility(View.GONE);
     }
 
     /**

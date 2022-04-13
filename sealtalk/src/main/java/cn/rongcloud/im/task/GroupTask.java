@@ -286,8 +286,8 @@ public class GroupTask {
 
             @Override
             protected void saveCallResult(@NonNull Result<RegularClearStatusResult> item) {
-                if (item.code == 200 && item.result != null) {
-                    updateGroupRegularClearStateInDB(groupId, item.result.clearStatus);
+                if (item.code == 200 && item.data != null) {
+                    updateGroupRegularClearStateInDB(groupId, item.data.clearStatus);
                 }
             }
 

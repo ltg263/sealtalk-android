@@ -63,10 +63,10 @@ public interface GroupService {
     LiveData<Result> setMemberDisplayName(@Body RequestBody body);
 
     @GET(SealTalkUrl.GROUP_GET_INFO)
-    LiveData<Result<GroupEntity>> getGroupInfo(@Path("group_id") String groupId);
+    LiveData<Result<GroupEntity>> getGroupInfo(@Query("groupId") String groupId );
 
     @GET(SealTalkUrl.GROUP_GET_MEMBER_INFO)
-    LiveData<Result<List<GroupMemberInfoResult>>> getGroupMemberList(@Path("group_id") String groupId);
+    LiveData<Result<List<GroupMemberInfoResult>>> getGroupMemberList(@Query("groupId") String groupId);
 
     @POST(SealTalkUrl.GROUP_REMOVE_MANAGER)
     LiveData<Result> removeManager(@Body RequestBody body);
@@ -74,10 +74,11 @@ public interface GroupService {
     @POST(SealTalkUrl.GROUP_ADD_MANAGER)
     LiveData<Result> addManager(@Body RequestBody body);
 
-    @POST(SealTalkUrl.GROUP_SAVE_TO_CONTACT)
+    @POST(SealTalkUrl.GROUP_SAVE_TO_CONTACT_ADD)
     LiveData<Result> saveToContact(@Body RequestBody body);
 
-    @HTTP(method = "DELETE", path = SealTalkUrl.GROUP_SAVE_TO_CONTACT, hasBody = true)
+//    @HTTP(method = "DELETE", path = SealTalkUrl.GROUP_SAVE_TO_CONTACT_REMOVE, hasBody = true)
+    @POST(SealTalkUrl.GROUP_SAVE_TO_CONTACT_REMOVE)
     LiveData<Result> removeFromContact(@Body RequestBody body);
 
     @POST(SealTalkUrl.GROUP_SET_REGULAR_CLEAR)

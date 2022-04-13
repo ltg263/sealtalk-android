@@ -1337,10 +1337,10 @@ public class IMManager {
             public void onError(RongIMClient.ConnectionErrorCode errorCode) {
                 SLog.e(LogTag.IM, "connect error - code:" + errorCode.getValue());
                 if (errorCode == RongIMClient.ConnectionErrorCode.RC_CONN_TOKEN_INCORRECT) {
-                    getToken(new ResultCallback<LoginResult>() {
+                    getToken(new ResultCallback<String>() {
                         @Override
-                        public void onSuccess(LoginResult loginResult) {
-                            connectIM(loginResult.token, timeOut, callback);
+                        public void onSuccess(String token) {
+                            connectIM(token, timeOut, callback);
                         }
 
                         @Override
@@ -1375,7 +1375,7 @@ public class IMManager {
      *
      * @param callback
      */
-    private void getToken(ResultCallback<LoginResult> callback) {
+    private void getToken(ResultCallback<String> callback) {
         UserService userService = HttpClientManager.getInstance(context).getClient().createService(UserService.class);
         /*
          *  考虑到会有后台调用此方法，所以不采用 LiveData 做返回值

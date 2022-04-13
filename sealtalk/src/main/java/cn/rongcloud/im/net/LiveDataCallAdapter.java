@@ -39,12 +39,13 @@ public class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<R>> {
             protected void onActive() {
                 super.onActive();
                 if (started.compareAndSet(false, true)) {
+                    SLog.d(LogTag.API, "callUrl:" + call.request().url().toString());
                     call.enqueue(new Callback<R>() {
                         @Override
                         public void onResponse(Call<R> call, Response<R> response) {
                             R body = response.body();
                             String path = call.request().url().encodedPath();
-
+                            SLog.d(LogTag.API, "onResponse:" + call.request().url().toString());
                             // 当没有信息体时通过 http code 判断业务错误
                             if (body == null && !response.isSuccessful()) {
                                 Result result = new Result();

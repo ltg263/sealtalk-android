@@ -21,16 +21,17 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserService {
     @POST(SealTalkUrl.LOGIN)
     LiveData<Result<LoginResult>> loginLiveData(@Body RequestBody body);
 
     @GET(SealTalkUrl.GET_TOKEN)
-    Call<Result<LoginResult>> getToken();
+    Call<Result<String>> getToken();
 
     @GET(SealTalkUrl.GET_USER_INFO)
-    LiveData<Result<UserInfo>> getUserInfo(@Path("user_id") String userId);
+    LiveData<Result<UserInfo>> getUserInfo(@Query("uid") String uid);
 
     @POST(SealTalkUrl.SEND_CODE)
     LiveData<Result<String>> sendCode(@Body RequestBody body);

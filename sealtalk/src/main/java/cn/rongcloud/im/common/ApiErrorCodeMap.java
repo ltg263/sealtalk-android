@@ -36,7 +36,8 @@ public class ApiErrorCodeMap {
             put(SealTalkUrl.GROUP_GET_BULLETIN, SealTalkUrlCode.GROUP_GET_BULLETIN);
             put(SealTalkUrl.GROUP_SET_PORTRAIT_URL, SealTalkUrlCode.GROUP_SET_PORTRAIT_URL);
             put(SealTalkUrl.GROUP_SET_DISPLAY_NAME, SealTalkUrlCode.GROUP_SET_DISPLAY_NAME);
-            put(SealTalkUrl.GROUP_SAVE_TO_CONTACT, SealTalkUrlCode.GROUP_SAVE_TO_CONTACT);
+            put(SealTalkUrl.GROUP_SAVE_TO_CONTACT_ADD, SealTalkUrlCode.GROUP_SAVE_TO_CONTACT);
+            put(SealTalkUrl.GROUP_SAVE_TO_CONTACT_REMOVE, SealTalkUrlCode.GROUP_SAVE_TO_CONTACT);
             put(SealTalkUrl.GROUP_GET_ALL_IN_CONTACT, SealTalkUrlCode.GROUP_GET_ALL_IN_CONTACT);
             put(SealTalkUrl.GET_FRIEND_ALL, SealTalkUrlCode.GET_FRIEND_ALL);
             put(SealTalkUrl.GET_BLACK_LIST, SealTalkUrlCode.GET_BLACK_LIST);
