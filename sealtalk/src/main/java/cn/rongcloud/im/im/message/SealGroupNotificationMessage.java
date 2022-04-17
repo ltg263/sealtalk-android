@@ -5,7 +5,7 @@ import android.os.Parcel;
 import io.rong.imlib.MessageTag;
 import io.rong.message.GroupNotificationMessage;
 
-@MessageTag(value = "ST:GrpNtf", flag = MessageTag.ISPERSISTED)
+@MessageTag(value = "QC:GroupNotice", flag = MessageTag.ISPERSISTED)
 public class SealGroupNotificationMessage extends GroupNotificationMessage {
 
 

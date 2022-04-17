@@ -12,7 +12,7 @@ import io.rong.common.RLog;
 import io.rong.imlib.MessageTag;
 import io.rong.imlib.model.MessageContent;
 
-@MessageTag(value = "ST:ConNtf", flag = MessageTag.ISPERSISTED)
+@MessageTag(value = "QC:OperationNotice", flag = MessageTag.ISPERSISTED)
 public class SealGroupConNtfMessage extends MessageContent {
 
     private String operatorUserId;
