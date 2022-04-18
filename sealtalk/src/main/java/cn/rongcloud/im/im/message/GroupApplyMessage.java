@@ -12,7 +12,7 @@ import io.rong.common.RLog;
 import io.rong.imlib.MessageTag;
 import io.rong.imlib.model.MessageContent;
 
-@MessageTag(value = "ST:GrpApply", flag = MessageTag.ISPERSISTED)
+@MessageTag(value = "QC:GroupApply", flag = MessageTag.ISPERSISTED)
 public class GroupApplyMessage extends MessageContent {
 
     private String operatorUserId;

@@ -89,7 +89,7 @@ public class SealGroupNotificationMessageItemProvider extends GroupNotificationM
                             e.printStackTrace();
                         }
                     }
-                } else if (content.getOperation().equals("openMemberProtection")) {
+                } else if (content.getOperation().equals("CloseMemberProtection")) {
                     TextView textView = holder.getView(R.id.rc_msg);
                     String contentStr = holder.getContext().getResources().getString(R.string.seal_group_member_protection_open);
                     textView.setText(contentStr);
@@ -169,7 +169,7 @@ public class SealGroupNotificationMessageItemProvider extends GroupNotificationM
                         e.printStackTrace();
                     }
                 }
-            } else if (message.getOperation().equals("openMemberProtection")) {
+            } else if (message.getOperation().equals("CloseMemberProtection")) {
                 String contentStr = context.getResources().getString(R.string.seal_group_member_protection_open);
                 return new SpannableString(contentStr);
             } else if (message.getOperation().equals("closeMemberProtection")) {
