@@ -145,8 +145,8 @@ public class ConversationViewModel extends AndroidViewModel {
                         if (friendShipInfoResource != null) {
                             if (friendShipInfoResource.data != null) {
                                 displayName = friendShipInfoResource.data.getDisplayName();
-                                if (TextUtils.isEmpty(displayName) && friendShipInfoResource.data.getUser() != null) {
-                                    displayName = friendShipInfoResource.data.getUser().getNickname();
+                                if (TextUtils.isEmpty(displayName) && friendShipInfoResource.data != null) {
+                                    displayName = friendShipInfoResource.data.getNickname();
                                 }
                             } else {
                                 if (friendShipInfoResource.status == Status.ERROR) {

@@ -12,7 +12,8 @@
         android:layout_marginStart="@dimen/seal_login_fragment_login_country_select_margin_left"
         android:layout_marginEnd="@dimen/seal_login_fragment_login_country_select_margin_right"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             style="@style/TextStyle.Alignment"
@@ -48,9 +49,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/seal_login_fragment_login_phonenumber_margin_left"
-        android:layout_marginTop="@dimen/seal_login_fragment_login_phonenumber_margin_top"
-        android:layout_marginEnd="@dimen/seal_login_fragment_login_phonenumber_margin_right"
+        android:layout_marginHorizontal="15dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -63,7 +62,8 @@
             android:paddingEnd="@dimen/seal_login_fragment_login_text_padding"
             android:text="+86"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium.Inverse"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="gone" />
 
 
         <cn.rongcloud.im.ui.widget.ClearWriteEditText
@@ -71,62 +71,108 @@
             style="@style/EditTextStyle.Alignment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rc_ed_public_service_search_selector"
+            android:background="@null"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:hint="@string/seal_login_phone_number"
+            android:hint="请输入手机号"
             android:inputType="phone"
             android:maxLength="20"
             android:maxLines="1"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:padding="15dp"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/deep_gray"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
-    <LinearLayout
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginHorizontal="30dp"
+        android:background="@color/color_divider_line" />
+
+    <RelativeLayout
+        android:id="@+id/cet_login_verify"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:paddingStart="@dimen/seal_login_fragment_login_password_margin_left"
-        android:paddingEnd="@dimen/seal_login_fragment_login_password_margin_right"
-        android:layout_marginTop="@dimen/seal_login_fragment_login_password_margin_top"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
 
         <cn.rongcloud.im.ui.widget.ClearWriteEditText
             android:id="@+id/cet_login_verify_code"
             style="@style/EditTextStyle.Alignment"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rc_ed_public_service_search_selector"
-            android:layout_weight="7"
-            android:drawablePadding="@dimen/seal_login_register_drawable_padding"
+            android:layout_marginEnd="15dp"
+            android:layout_toStartOf="@id/cet_login_send_verify_code"
+            android:background="@null"
             android:hint="@string/seal_talk_login_verify_code"
             android:inputType="number"
-            android:paddingStart="@dimen/seal_login_find_password_padding"
-            android:paddingEnd="@dimen/seal_login_find_password_padding"
-            android:maxLength="6"
+            android:maxLength="20"
             android:maxLines="1"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:padding="15dp"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/deep_gray"
+            android:textSize="14sp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:layout_below="@id/cet_login_send_verify_code"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_toStartOf="@id/cet_login_send_verify_code"
+            android:background="@color/color_divider_line" />
 
         <Button
             android:id="@+id/cet_login_send_verify_code"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/seal_login_register_btn_margin_left"
-            android:layout_weight="4"
+            android:layout_alignParentEnd="true"
             android:background="@drawable/seal_login_btn_selector"
             android:clickable="false"
-            android:paddingStart="@dimen/seal_login_register_padding"
-            android:paddingEnd="@dimen/seal_login_register_padding"
             android:text="@string/seal_login_send_code"
             android:textColor="@color/white"
             android:textSize="@dimen/seal_login_register_btn_code_text_size" />
 
-    </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/cet_login_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/seal_login_find_password_margin"
+        android:layout_marginTop="@dimen/seal_login_find_password_margin_top"
+        android:layout_marginEnd="@dimen/seal_login_find_password_margin"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
+        <cn.rongcloud.im.ui.widget.ClearWriteEditText
+            android:id="@+id/cet_password"
+            style="@style/EditTextStyle.Alignment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/text_black"
+            android:textColorHint="@color/deep_gray"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:layout_marginHorizontal="15dp"
+            android:background="@color/color_divider_line" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_login"

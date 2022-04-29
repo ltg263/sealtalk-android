@@ -30,15 +30,15 @@ public class GroupManagementViewModel extends AndroidViewModel {
     private String groupId;
     private MediatorLiveData<Resource<List<GroupMember>>> groupManagements = new MediatorLiveData<>();
     private MutableLiveData<GroupMember> groupOwner = new MutableLiveData<>();
-    private MediatorLiveData<Resource<Void>> removeManagerResult = new MediatorLiveData<>();
-    private MediatorLiveData<Resource<Void>> addManagerResult = new MediatorLiveData<>();
-    private MediatorLiveData<Resource<Void>> transferResult = new MediatorLiveData<>();
+    private MediatorLiveData<Resource<Boolean>> removeManagerResult = new MediatorLiveData<>();
+    private MediatorLiveData<Resource<Boolean>> addManagerResult = new MediatorLiveData<>();
+    private MediatorLiveData<Resource<Boolean>> transferResult = new MediatorLiveData<>();
     private MediatorLiveData<GroupEntity> groupInfo = new MediatorLiveData<>();
     private GroupTask groupTask;
     private SingleSourceMapLiveData<Resource<List<GroupMember>>, List<GroupMember>> groupMembersWithoutGroupOwner;
-    private SingleSourceLiveData<Resource<Void>> muteAllResult = new SingleSourceLiveData<>();
-    private SingleSourceLiveData<Resource<Void>> memberProtectionResult = new SingleSourceLiveData<>();
-    private SingleSourceLiveData<Resource<Void>> setCerifiResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> muteAllResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> memberProtectionResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> setCerifiResult = new SingleSourceLiveData<>();
 
     public GroupManagementViewModel(@NonNull Application application) {
         super(application);
@@ -74,7 +74,7 @@ public class GroupManagementViewModel extends AndroidViewModel {
         setCerifiResult.setSource(groupTask.setCertification(groupId, certiStatus));
     }
 
-    public LiveData<Resource<Void>> getCerifiResult() {
+    public LiveData<Resource<Boolean>> getCerifiResult() {
         return setCerifiResult;
     }
 
@@ -87,7 +87,7 @@ public class GroupManagementViewModel extends AndroidViewModel {
         muteAllResult.setSource(groupTask.setMuteAll(groupId, muteAllState, ""));
     }
 
-    public LiveData<Resource<Void>> getMuteAllResult() {
+    public LiveData<Resource<Boolean>> getMuteAllResult() {
         return muteAllResult;
     }
 
@@ -100,7 +100,7 @@ public class GroupManagementViewModel extends AndroidViewModel {
         memberProtectionResult.setSource(groupTask.setMemberProtection(groupId, memberProtection));
     }
 
-    public LiveData<Resource<Void>> getMemberProtectionResult() {
+    public LiveData<Resource<Boolean>> getMemberProtectionResult() {
         return memberProtectionResult;
     }
 
@@ -204,7 +204,7 @@ public class GroupManagementViewModel extends AndroidViewModel {
      *
      * @return
      */
-    public LiveData<Resource<Void>> getRemoveManagerResult() {
+    public LiveData<Resource<Boolean>> getRemoveManagerResult() {
         return removeManagerResult;
     }
 
@@ -213,7 +213,7 @@ public class GroupManagementViewModel extends AndroidViewModel {
      *
      * @return
      */
-    public LiveData<Resource<Void>> getAddManagerResult() {
+    public LiveData<Resource<Boolean>> getAddManagerResult() {
         return addManagerResult;
     }
 
@@ -232,7 +232,7 @@ public class GroupManagementViewModel extends AndroidViewModel {
      *
      * @return
      */
-    public LiveData<Resource<Void>> getTransferResult() {
+    public LiveData<Resource<Boolean>> getTransferResult() {
         return transferResult;
     }
 
@@ -243,11 +243,11 @@ public class GroupManagementViewModel extends AndroidViewModel {
      */
     public void deleteManagement(GroupMember member) {
 
-        LiveData<Resource<Void>> resourceLiveData = groupTask.removeManager(member.getGroupId(), new String[]{member.getUserId()});
+        LiveData<Resource<Boolean>> resourceLiveData = groupTask.removeManager(member.getGroupId(), new String[]{member.getUserId()});
 
-        removeManagerResult.addSource(resourceLiveData, new Observer<Resource<Void>>() {
+        removeManagerResult.addSource(resourceLiveData, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 if (resource.status != Status.LOADING) {
                     removeManagerResult.removeSource(resourceLiveData);
                 }
@@ -281,11 +281,11 @@ public class GroupManagementViewModel extends AndroidViewModel {
             memIds[i] = membersIds.get(i);
         }
 
-        LiveData<Resource<Void>> resourceLiveData = groupTask.addManager(groupId, memIds);
+        LiveData<Resource<Boolean>> resourceLiveData = groupTask.addManager(groupId, memIds);
 
-        addManagerResult.addSource(resourceLiveData, new Observer<Resource<Void>>() {
+        addManagerResult.addSource(resourceLiveData, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 if (resource.status != Status.LOADING) {
                     addManagerResult.removeSource(resourceLiveData);
                 }
@@ -317,10 +317,10 @@ public class GroupManagementViewModel extends AndroidViewModel {
      */
     public void transferGroupOwner(String groupId, String userId) {
 //        transferResult.setSource(groupTask.transferGroup(groupId, userId));
-        LiveData<Resource<Void>> transferGroup = groupTask.transferGroup(groupId, userId);
-        transferResult.addSource(transferGroup, new Observer<Resource<Void>>() {
+        LiveData<Resource<Boolean>> transferGroup = groupTask.transferGroup(groupId, userId);
+        transferResult.addSource(transferGroup, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 if (resource.status != Status.LOADING) {
                     transferResult.removeSource(transferGroup);
                 }

@@ -238,12 +238,12 @@ public class SelectBaseViewModel extends AndroidViewModel {
         sortByFirstChar(input);
         for (FriendShipInfo friendShipInfo : input) {
             if (excludeContactIdList != null) {
-                if (excludeContactIdList.contains(friendShipInfo.getUser().getId())) {
+                if (excludeContactIdList.contains(friendShipInfo.getId())) {
                     continue;
                 }
             }
             // 非好友不添加入列表
-            if (friendShipInfo.getStatus() != FriendStatus.IS_FRIEND.getStatusCode()) {
+            if (friendShipInfo.getFriendshipStatus() != FriendStatus.IS_FRIEND.getStatusCode()) {
                 continue;
             }
 
@@ -258,11 +258,11 @@ public class SelectBaseViewModel extends AndroidViewModel {
                 output.add(model);
             }
             CheckableContactModel<FriendShipInfo> checkableContactModel = new CheckableContactModel(friendShipInfo, R.layout.select_fragment_contact_item);
-            if (uncheckableContactIdList != null && uncheckableContactIdList.contains(checkableContactModel.getBean().getUser().getId())) {
+            if (uncheckableContactIdList != null && uncheckableContactIdList.contains(checkableContactModel.getBean().getId())) {
                 checkableContactModel.setCheckType(CheckType.DISABLE);
             }
-            SLog.i(TAG, "checkableContactModel.getBean().getUser().getId(): " + checkableContactModel.getBean().getUser().getId());
-            if (checkedContactIdList != null && checkedContactIdList.contains(checkableContactModel.getBean().getUser().getId())) {
+            SLog.i(TAG, "checkableContactModel.getBean().getId(): " + checkableContactModel.getBean().getId());
+            if (checkedContactIdList != null && checkedContactIdList.contains(checkableContactModel.getBean().getId())) {
                 checkableContactModel.setCheckType(CheckType.CHECKED);
             }
             output.add(checkableContactModel);
@@ -298,7 +298,7 @@ public class SelectBaseViewModel extends AndroidViewModel {
             if (uncheckableContactIdList != null && uncheckableContactIdList.contains(checkableContactModel.getBean().getUserId())) {
                 checkableContactModel.setCheckType(CheckType.DISABLE);
             }
-            SLog.i(TAG, "checkableContactModel.getBean().getUser().getId(): " + checkableContactModel.getBean().getUserId());
+            SLog.i(TAG, "checkableContactModel.getBean().getId(): " + checkableContactModel.getBean().getUserId());
             if (checkedContactIdList != null && checkedContactIdList.contains(checkableContactModel.getBean().getUserId())) {
                 checkableContactModel.setCheckType(CheckType.CHECKED);
             }
@@ -332,7 +332,7 @@ public class SelectBaseViewModel extends AndroidViewModel {
                 if (checkableContactModel.getCheckType() == CheckType.CHECKED) {
                     if (checkableContactModel.getBean() instanceof FriendShipInfo) {
                         FriendShipInfo info = (FriendShipInfo) checkableContactModel.getBean();
-                        strings.add(info.getUser().getId());
+                        strings.add(info.getId());
                     } else if (checkableContactModel.getBean() instanceof GroupMember) {
                         GroupMember groupMember = (GroupMember) checkableContactModel.getBean();
                         strings.add(groupMember.getUserId());
@@ -388,7 +388,7 @@ public class SelectBaseViewModel extends AndroidViewModel {
         Object bean = contactModel.getBean();
         if (bean instanceof FriendShipInfo) {
             FriendShipInfo friendShipInfo = (FriendShipInfo) bean;
-            String id = friendShipInfo.getUser().getId();
+            String id = friendShipInfo.getId();
             if (!checkedContactIdList.contains(id)) {
                 checkedContactIdList.add(id);
                 selectedCount.setValue(checkedContactIdList.size());
@@ -412,7 +412,7 @@ public class SelectBaseViewModel extends AndroidViewModel {
         Object bean = contactModel.getBean();
         if (bean instanceof FriendShipInfo) {
             FriendShipInfo friendShipInfo = (FriendShipInfo) bean;
-            String id = friendShipInfo.getUser().getId();
+            String id = friendShipInfo.getId();
             boolean removed = checkedContactIdList.remove(id);
             if (removed) {
                 selectedCount.setValue(checkedContactIdList.size());
@@ -478,9 +478,9 @@ public class SelectBaseViewModel extends AndroidViewModel {
     // 获取首字母
     private String getFirstChar(FriendShipInfo info) {
         String firstChar;
-        String groupDisplayName = info.getGroupDisplayName();
+        String groupDisplayName = info.getAccountName();
         String displayName = info.getDisplayName();
-        String nameFirstChar = info.getUser().getFirstCharacter();
+        String nameFirstChar = info.getFirstCharacter();
         if (!TextUtils.isEmpty(groupDisplayName)) {
             firstChar = CharacterParser.getInstance().getSpelling(groupDisplayName).substring(0, 1).toUpperCase();
         } else if (!TextUtils.isEmpty(displayName)) {

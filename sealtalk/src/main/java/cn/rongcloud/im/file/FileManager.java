@@ -159,7 +159,7 @@ public class FileManager {
 
                     if (uploadResultResource.status == Status.SUCCESS) {
                         // 返回上传后结果 url
-                        String resultUrl = "http://" + tokenResult.getDomain() + "/" + uploadResultResource.data;
+                        String resultUrl = "http://" + tokenResult.getBucketDomain() + "/" + uploadResultResource.data;
                         result.setValue(Resource.success(resultUrl));
                     }
                 });

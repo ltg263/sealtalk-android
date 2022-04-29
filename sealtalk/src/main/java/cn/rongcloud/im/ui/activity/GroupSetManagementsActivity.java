@@ -112,9 +112,9 @@ public class GroupSetManagementsActivity extends TitleBaseActivity {
 
 
         // 添加管理员
-        groupManagementViewModel.getAddManagerResult().observe(this, new Observer<Resource<Void>>() {
+        groupManagementViewModel.getAddManagerResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 // 提醒
                 if (resource.status == Status.SUCCESS) {
                     showToast(R.string.seal_group_manager_set_manager_toast_set_management_success);

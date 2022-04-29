@@ -65,9 +65,9 @@ public class NewFriendListActivity extends TitleBaseActivity {
         adapter.setOnItemButtonClick(new NewFriendListAdapter.OnItemButtonClick() {
             @Override
             public boolean onButtonClick(View view, int position, FriendShipInfo info) {
-                switch (FriendStatus.getStatus(info.getStatus())) {
+                switch (FriendStatus.getStatus(info.getFriendshipStatus())) {
                     case RECEIVE_REQUEST: //收到了好友邀请
-                        String friendId = info.getUser().getId();
+                        String friendId = info.getId();
                         agreeFriends(friendId);
                         break;
                     case SEND_REQUEST: // 发出了好友邀请
@@ -84,7 +84,7 @@ public class NewFriendListActivity extends TitleBaseActivity {
 
             @Override
             public boolean onIgnore(View view, int position, FriendShipInfo info) {
-                String friendId = info.getUser().getId();
+                String friendId = info.getId();
                 ignoreFriends(friendId);
                 return false;
             }

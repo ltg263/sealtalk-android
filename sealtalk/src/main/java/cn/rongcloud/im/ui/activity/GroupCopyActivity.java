@@ -101,10 +101,11 @@ public class GroupCopyActivity extends TitleBaseActivity implements View.OnClick
     }
 
     private void updateGroupInfo(GroupEntity groupInfo) {
+        portraitUri = groupInfo.getPortraitUri();
         ImageLoaderUtils.displayUserPortraitImage(groupInfo.getPortraitUri(), groupPortrait);
         tvGroupMemberNum.setText(getString(R.string.common_member_count, groupInfo.getMemberCount()));
     }
-
+    String portraitUri = "";
     private void copyGroup() {
         showLoadingDialog("");
         if (isCopyNameGoing) {
@@ -115,7 +116,7 @@ public class GroupCopyActivity extends TitleBaseActivity implements View.OnClick
         //选取当前用户名和随机一位群成员用户名，凑齐群名，不超过6位数
         if (currentUserName.length() >= 6) {
             copyGroupName = currentUserName.substring(0, 6) + "...";
-            copyGroupViewModel.copyGroup(groupId, copyGroupName, "");
+            copyGroupViewModel.copyGroup(groupId, copyGroupName, portraitUri);
         } else {
             copyGroupViewModel.getGroupMemberInfoList(groupId).observe(this, new Observer<List<GroupMember>>() {
                 @Override
@@ -128,7 +129,7 @@ public class GroupCopyActivity extends TitleBaseActivity implements View.OnClick
                         }
                         copyGroupName = copyGroupName + "...";
                     }
-                    copyGroupViewModel.copyGroup(groupId, copyGroupName, "");
+                    copyGroupViewModel.copyGroup(groupId, copyGroupName, portraitUri);
                 }
             });
         }

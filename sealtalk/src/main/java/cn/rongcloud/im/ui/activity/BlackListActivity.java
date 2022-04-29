@@ -91,6 +91,7 @@ public class BlackListActivity extends TitleBaseActivity {
             public void onChanged(Resource<Void> resource) {
                 if (resource.status == Status.SUCCESS) {
                     ToastUtils.showToast(R.string.common_remove_successful);
+                    blackListViewModel.getBlackList();
                 } else if (resource.status == Status.ERROR) {
                     ToastUtils.showToast(resource.message);
                 }

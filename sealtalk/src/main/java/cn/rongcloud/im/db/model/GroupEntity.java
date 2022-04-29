@@ -64,7 +64,7 @@ public class GroupEntity implements Parcelable {
      * 是否在通讯录，0：不在；1：在
      */
     @ColumnInfo(name = "is_in_contact")
-    private int isInContact;
+    private boolean isInContact;
     /**
      * 定时删除时间状态
      */
@@ -74,35 +74,32 @@ public class GroupEntity implements Parcelable {
      * 全员禁言
      */
     @ColumnInfo(name = "is_mute_all")
-    private int isMute;
+    private boolean muteStatus;
 
     /**
      * 入群认证
      */
     @ColumnInfo(name = "certification_status")
-    private int certiStatus;
+    private boolean joinVerify;
 
     /**
      * 成员保护
      */
     @ColumnInfo(name = "member_protection")
-    private int memberProtection;
+    private boolean memberProtect;
 
-    public int getMemberProtection() {
-        return memberProtection;
+    public void setMemberProtect(boolean memberProtect) {
+        this.memberProtect = memberProtect;
     }
 
-    public void setMemberProtection(int memberProtection) {
-        this.memberProtection = memberProtection;
+    public boolean isMemberProtect() {
+        return memberProtect;
     }
 
-    public int getIsMute() {
-        return isMute;
+    public void setMuteStatus(boolean muteStatus) {
+        this.muteStatus = muteStatus;
     }
 
-    public void setIsMute(int isMute) {
-        this.isMute = isMute;
-    }
 
     public int getRegularClearState() {
         return regularClearState;
@@ -112,12 +109,16 @@ public class GroupEntity implements Parcelable {
         this.regularClearState = regularClearState;
     }
 
-    public int getCertiStatus() {
-        return certiStatus;
+    public boolean isJoinVerify() {
+        return joinVerify;
     }
 
-    public void setCertiStatus(int certiStatus) {
-        this.certiStatus = certiStatus;
+    public boolean isMuteStatus() {
+        return muteStatus;
+    }
+
+    public void setJoinVerify(boolean joinVerify) {
+        this.joinVerify = joinVerify;
     }
 
     @NonNull
@@ -225,14 +226,13 @@ public class GroupEntity implements Parcelable {
         this.bulletinTime = bulletinTime;
     }
 
-    public int getIsInContact() {
+    public boolean isInContact() {
         return isInContact;
     }
 
-    public void setIsInContact(int isInContact) {
-        this.isInContact = isInContact;
+    public void setInContact(boolean inContact) {
+        isInContact = inContact;
     }
-
 
     @Override
     public int describeContents() {
@@ -254,11 +254,33 @@ public class GroupEntity implements Parcelable {
         dest.writeString(this.bulletin);
         dest.writeLong(this.bulletinTime);
         dest.writeLong(this.deletedAt != null ? this.deletedAt.getTime() : -1);
-        dest.writeInt(this.isInContact);
+        dest.writeByte(this.isInContact ? (byte) 1 : (byte) 0);
         dest.writeInt(this.regularClearState);
-        dest.writeInt(this.isMute);
-        dest.writeInt(this.certiStatus);
-        dest.writeInt(this.memberProtection);
+        dest.writeByte(this.muteStatus ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.joinVerify ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.memberProtect ? (byte) 1 : (byte) 0);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.id = source.readString();
+        this.portraitUri = source.readString();
+        this.name = source.readString();
+        this.nameSpelling = source.readString();
+        this.nameSpellingInitial = source.readString();
+        this.orderSpelling = source.readString();
+        this.memberCount = source.readInt();
+        this.maxMemberCount = source.readInt();
+        this.creatorId = source.readString();
+        this.type = source.readInt();
+        this.bulletin = source.readString();
+        this.bulletinTime = source.readLong();
+        long tmpDeletedAt = source.readLong();
+        this.deletedAt = tmpDeletedAt == -1 ? null : new Date(tmpDeletedAt);
+        this.isInContact = source.readByte() != 0;
+        this.regularClearState = source.readInt();
+        this.muteStatus = source.readByte() != 0;
+        this.joinVerify = source.readByte() != 0;
+        this.memberProtect = source.readByte() != 0;
     }
 
     public GroupEntity() {
@@ -279,14 +301,14 @@ public class GroupEntity implements Parcelable {
         this.bulletinTime = in.readLong();
         long tmpDeletedAt = in.readLong();
         this.deletedAt = tmpDeletedAt == -1 ? null : new Date(tmpDeletedAt);
-        this.isInContact = in.readInt();
+        this.isInContact = in.readByte() != 0;
         this.regularClearState = in.readInt();
-        this.isMute = in.readInt();
-        this.certiStatus = in.readInt();
-        this.memberProtection = in.readInt();
+        this.muteStatus = in.readByte() != 0;
+        this.joinVerify = in.readByte() != 0;
+        this.memberProtect = in.readByte() != 0;
     }
 
-    public static final Creator<GroupEntity> CREATOR = new Creator<GroupEntity>() {
+    public static final Parcelable.Creator<GroupEntity> CREATOR = new Parcelable.Creator<GroupEntity>() {
         @Override
         public GroupEntity createFromParcel(Parcel source) {
             return new GroupEntity(source);
@@ -316,9 +338,9 @@ public class GroupEntity implements Parcelable {
                 ", deletedAt=" + deletedAt +
                 ", isInContact=" + isInContact +
                 ", regularClearState=" + regularClearState +
-                ", isMute=" + isMute +
-                ", certiStatus=" + certiStatus +
-                ", memberProtection=" + memberProtection +
+                ", muteStatus=" + muteStatus +
+                ", joinVerify=" + joinVerify +
+                ", memberProtect=" + memberProtect +
                 '}';
     }
 }

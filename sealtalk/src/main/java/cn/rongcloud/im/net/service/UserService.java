@@ -36,6 +36,12 @@ public interface UserService {
     @POST(SealTalkUrl.SEND_CODE)
     LiveData<Result<String>> sendCode(@Body RequestBody body);
 
+    @POST(SealTalkUrl.USER_CLOSE_SEND_CODE)
+    LiveData<Result<String>> sendCodeAccountClose();
+
+    @POST(SealTalkUrl.SEND_CODE_RESET_PASSWORD)
+    LiveData<Result<String>> sendCodeResetPassword(@Body RequestBody body);
+
     @POST(SealTalkUrl.VERIFY_CODE)
     LiveData<Result<VerifyResult>> verifyCode(@Body RequestBody body);
 
@@ -46,10 +52,10 @@ public interface UserService {
     LiveData<Result<List<RegionResult>>> getRegionList();
 
     @POST(SealTalkUrl.CHECK_PHONE_AVAILABLE)
-    LiveData<Result<Boolean>> checkPhoneAvailable(@Body RequestBody body);
+    LiveData<Result> checkPhoneAvailable(@Body RequestBody body);
 
     @POST(SealTalkUrl.RESET_PASSWORD)
-    LiveData<Result<String>> resetPassword(@Body RequestBody body);
+    LiveData<Result> resetPassword(@Body RequestBody body);
 
     @POST(SealTalkUrl.SET_NICK_NAME)
     LiveData<Result> setMyNickName(@Body RequestBody requestBody);
@@ -65,6 +71,14 @@ public interface UserService {
 
     @POST(SealTalkUrl.SET_PORTRAIT)
     LiveData<Result> setPortrait(@Body RequestBody body);
+
+    /**
+     * 注销账号
+     * @param body
+     * @return
+     */
+    @POST(SealTalkUrl.USER_CLOSE)
+    LiveData<Result> userClose(@Body RequestBody body);
 
     @POST(SealTalkUrl.CHANGE_PASSWORD)
     LiveData<Result> changePassword(@Body RequestBody body);

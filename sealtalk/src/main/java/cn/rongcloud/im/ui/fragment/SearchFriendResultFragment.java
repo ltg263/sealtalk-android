@@ -45,7 +45,7 @@ public class SearchFriendResultFragment extends Fragment implements View.OnClick
 
     private void initView() {
         tvName.setText(searchFriendInfo.getNickname());
-        String stAccount = searchFriendInfo.getStAccount();
+        String stAccount = searchFriendInfo.getAccountName();
         if (!TextUtils.isEmpty(stAccount)) {
             tvStAccount.setText(getString(R.string.seal_st_account_content_format, stAccount));
         }

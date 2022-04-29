@@ -5,30 +5,96 @@ package cn.rongcloud.im.db.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
+import androidx.room.Ignore;
 
+import com.umeng.commonsdk.debug.D;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class FriendShipInfo implements Parcelable {
-
+    //接口内容
+    @ColumnInfo(name = "id")
+    private String id;//好友ID
+    @ColumnInfo(name = "region")
+    private String region;//手机号码区域
+    @ColumnInfo(name = "phone_number")
+    private String phone;//手机号码
+    @ColumnInfo(name= "nickname")
+    private String accountName;//趣品谈账号
+    @ColumnInfo(name = "name")
+    private String nickname;//昵称
     @ColumnInfo(name = "alias")
-    private String displayName;
+    private String displayName;//好友显示名称
+    @ColumnInfo(name = "portrait_uri")
+    private String portraitUri;//头像地址
+    //gender   性别@(0:女,1:男,2:未知)
+    @ColumnInfo(name = "friend_status")
+    private int friendshipStatus;//好友关系状态@(10=待发送请求, 11=已发送请求, 20=同意请求, 21=忽略请求, 30=删除好友, 31=黑名单)
+    @ColumnInfo(name = "updateAt")
+    private String modifyTime;//记录修改时间
+    @ColumnInfo(name= "nickname_spelling")
+
+    private String groupDisplayNameSpelling;
+    @ColumnInfo(name = "order_spelling")
+    private String orderSpelling;
+    @ColumnInfo(name = "name_spelling")
+    private String nameSpelling;
     @ColumnInfo(name = "message")
     private String message;
-    @ColumnInfo(name = "friend_status")
-    private int status;
-    @ColumnInfo(name = "updateAt")
-    private Date updatedAt;
-    @Embedded
-    private FriendDetailInfo user;
     @ColumnInfo(name = "alias_spelling")
     private String disPlayNameSpelling;
-    @ColumnInfo(name= "nickname")
-    private String groupDisplayName;
-    @ColumnInfo(name= "nickname_spelling")
-    private String groupDisplayNameSpelling;
+    @Ignore
+    private String firstCharacter;
+
+    public String getFirstCharacter() {
+        return firstCharacter;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public String getDisplayName() {
         return displayName;
@@ -38,53 +104,50 @@ public class FriendShipInfo implements Parcelable {
         this.displayName = displayName;
     }
 
-    public String getMessage() {
-        return message;
+    public String getPortraitUri() {
+        return portraitUri;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setPortraitUri(String portraitUri) {
+        this.portraitUri = portraitUri;
     }
 
-    public int getStatus() {
-        return status;
+    public int getFriendshipStatus() {
+        return friendshipStatus;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setFriendshipStatus(int friendshipStatus) {
+        this.friendshipStatus = friendshipStatus;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public Date getModifyTime1() {
+        return new Date(getMsToTime(modifyTime,"yyyy-MM-dd HH:mm:ss"));
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public String getModifyTime() {
+        return modifyTime;
     }
 
-
-    public FriendDetailInfo getUser() {
-        return user;
+    /**
+     * 描述: 将字符串转成毫秒数 格式年月日
+     */
+    public static long getMsToTime(String time, String layout) {
+        try {
+            Calendar c = Calendar.getInstance();
+            if(time.contains("-")){
+                c.setTime(new SimpleDateFormat(layout).parse(time));
+            }else{
+                c.setTime(new Date(Long.parseLong(time)));
+            }
+            return c.getTimeInMillis();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
-    public void setUser(FriendDetailInfo user) {
-        this.user = user;
-    }
-
-    public String getDisPlayNameSpelling() {
-        return disPlayNameSpelling;
-    }
-
-    public void setDisPlayNameSpelling(String disPlayNameSpelling) {
-        this.disPlayNameSpelling = disPlayNameSpelling;
-    }
-
-    public String getGroupDisplayName() {
-        return groupDisplayName;
-    }
-
-    public void setGroupDisplayName(String groupDisplayName) {
-        this.groupDisplayName = groupDisplayName;
+    public void setModifyTime(String modifyTime) {
+        this.modifyTime = modifyTime;
     }
 
     public String getGroupDisplayNameSpelling() {
@@ -95,19 +158,41 @@ public class FriendShipInfo implements Parcelable {
         this.groupDisplayNameSpelling = groupDisplayNameSpelling;
     }
 
-    @Override
-    public String toString() {
-        return "FriendShipInfo{" +
-                "displayName='" + displayName + '\'' +
-                ", message='" + message + '\'' +
-                ", status=" + status +
-                ", updatedAt=" + updatedAt +
-                ", user=" + user +
-                ", disPlayNameSpelling='" + disPlayNameSpelling + '\'' +
-                ", groupDisplayName='" + groupDisplayName + '\'' +
-                ", groupDisplayNameSpelling='" + groupDisplayNameSpelling + '\'' +
-                '}';
+    public String getOrderSpelling() {
+        return orderSpelling;
     }
+
+    public void setOrderSpelling(String orderSpelling) {
+        this.orderSpelling = orderSpelling;
+        if (!TextUtils.isEmpty(orderSpelling)) {
+            firstCharacter = orderSpelling.substring(0, 1).toUpperCase();
+        }
+    }
+
+    public String getNameSpelling() {
+        return nameSpelling;
+    }
+
+    public void setNameSpelling(String nameSpelling) {
+        this.nameSpelling = nameSpelling;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getDisPlayNameSpelling() {
+        return disPlayNameSpelling;
+    }
+
+    public void setDisPlayNameSpelling(String disPlayNameSpelling) {
+        this.disPlayNameSpelling = disPlayNameSpelling;
+    }
+
 
     @Override
     public int describeContents() {
@@ -116,29 +201,57 @@ public class FriendShipInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.region);
+        dest.writeString(this.phone);
+        dest.writeString(this.accountName);
+        dest.writeString(this.nickname);
         dest.writeString(this.displayName);
-        dest.writeString(this.message);
-        dest.writeInt(this.status);
-        dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
-        dest.writeParcelable(this.user, flags);
-        dest.writeString(this.disPlayNameSpelling);
-        dest.writeString(this.groupDisplayName);
+        dest.writeString(this.portraitUri);
+        dest.writeInt(this.friendshipStatus);
+        dest.writeString(this.modifyTime);
         dest.writeString(this.groupDisplayNameSpelling);
+        dest.writeString(this.orderSpelling);
+        dest.writeString(this.nameSpelling);
+        dest.writeString(this.message);
+        dest.writeString(this.disPlayNameSpelling);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.id = source.readString();
+        this.region = source.readString();
+        this.phone = source.readString();
+        this.accountName = source.readString();
+        this.nickname = source.readString();
+        this.displayName = source.readString();
+        this.portraitUri = source.readString();
+        this.friendshipStatus = source.readInt();
+        this.modifyTime = source.readString();
+        this.groupDisplayNameSpelling = source.readString();
+        this.orderSpelling = source.readString();
+        this.nameSpelling = source.readString();
+        this.message = source.readString();
+        this.disPlayNameSpelling = source.readString();
     }
 
     public FriendShipInfo() {
     }
 
     protected FriendShipInfo(Parcel in) {
+        this.id = in.readString();
+        this.region = in.readString();
+        this.phone = in.readString();
+        this.accountName = in.readString();
+        this.nickname = in.readString();
         this.displayName = in.readString();
-        this.message = in.readString();
-        this.status = in.readInt();
-        long tmpUpdatedAt = in.readLong();
-        this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
-        this.user = in.readParcelable(FriendDetailInfo.class.getClassLoader());
-        this.disPlayNameSpelling = in.readString();
-        this.groupDisplayName = in.readString();
+        this.portraitUri = in.readString();
+        this.friendshipStatus = in.readInt();
+        this.modifyTime = in.readString();
         this.groupDisplayNameSpelling = in.readString();
+        this.orderSpelling = in.readString();
+        this.nameSpelling = in.readString();
+        this.message = in.readString();
+        this.disPlayNameSpelling = in.readString();
     }
 
     public static final Parcelable.Creator<FriendShipInfo> CREATOR = new Parcelable.Creator<FriendShipInfo>() {
@@ -152,4 +265,24 @@ public class FriendShipInfo implements Parcelable {
             return new FriendShipInfo[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "FriendShipInfo{" +
+                "id='" + id + '\'' +
+                ", region='" + region + '\'' +
+                ", phone='" + phone + '\'' +
+                ", accountName='" + accountName + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", portraitUri='" + portraitUri + '\'' +
+                ", friendshipStatus=" + friendshipStatus +
+                ", modifyTime=" + modifyTime +
+                ", groupDisplayNameSpelling='" + groupDisplayNameSpelling + '\'' +
+                ", orderSpelling='" + orderSpelling + '\'' +
+                ", nameSpelling='" + nameSpelling + '\'' +
+                ", message='" + message + '\'' +
+                ", disPlayNameSpelling='" + disPlayNameSpelling + '\'' +
+                '}';
+    }
 }

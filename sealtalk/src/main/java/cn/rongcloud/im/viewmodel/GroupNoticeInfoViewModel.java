@@ -52,7 +52,7 @@ public class GroupNoticeInfoViewModel extends AndroidViewModel {
      * @param status
      * @param noticeId
      */
-    public LiveData<Resource<Void>> setGroupNoticeStatus(String groupId, String receiverId, String status, String noticeId) {
+    public LiveData<Resource<Boolean>> setGroupNoticeStatus(String groupId, String receiverId, String status, String noticeId) {
         return groupTask.setNoticeStatus(groupId, receiverId, status, noticeId);
     }
 

@@ -3,48 +3,18 @@ package cn.rongcloud.im.model;
 public class GroupNoticeInfoResult {
     public String id;
 
-    public int status;
+    public int receiveStatus;
 
-    public int type;
+    public int receiverType;
 
-    public String createdAt;
+    public String createTime;
 
-    public String timestamp;
+    public String requesterName;
+    public String requesterId;
 
-    public Requester requester;
+    public String receiverName;
+    public String receiverId;
 
-    public Receiver receiver;
-
-    public Group group;
-
-    public static class Requester{
-        public Requester(String id, String nickname) {
-            this.id = id;
-            this.nickname = nickname;
-        }
-
-        public String id;
-        public String nickname;
-
-    }
-
-    public static class Receiver{
-        public Receiver(String id, String nickname) {
-            this.id = id;
-            this.nickname = nickname;
-        }
-
-        public String id;
-        public String nickname;
-    }
-
-    public static class Group{
-        public Group(String id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        public String id;
-        public String name;
-    }
+    public String groupId;
+    public String groupName;
 }

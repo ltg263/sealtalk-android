@@ -94,13 +94,13 @@ public interface GroupService {
     LiveData<Result> setGroupProtection(@Body RequestBody body);
 
     @POST(SealTalkUrl.GROUP_SET_CERTIFICATION)
-    LiveData<Result<Void>> setCertification(@Body RequestBody body);
+    LiveData<Result<Boolean>> setCertification(@Body RequestBody body);
 
     @GET(SealTalkUrl.GROUP_GET_NOTICE_INFO)
     LiveData<Result<List<GroupNoticeInfoResult>>> getGroupNoticeInfo();
 
     @POST(SealTalkUrl.GROUP_SET_NOTICE_STATUS)
-    LiveData<Result<Void>> setGroupNoticeStatus(@Body RequestBody body);
+    LiveData<Result> setGroupNoticeStatus(@Body RequestBody body);
 
     @POST(SealTalkUrl.GROUP_CLEAR_NOTICE)
     LiveData<Result<Void>> clearGroupNotice();
@@ -108,13 +108,13 @@ public interface GroupService {
     @POST(SealTalkUrl.GROUP_COPY)
     LiveData<Result<CopyGroupResult>> copyGroup(@Body RequestBody body);
 
-    @POST(SealTalkUrl.GROUP_GET_EXITED)
-    LiveData<Result<List<GroupExitedMemberInfo>>> getGroupExitedMemberInfo(@Body RequestBody body);
+    @GET(SealTalkUrl.GROUP_GET_EXITED)
+    LiveData<Result<List<GroupExitedMemberInfo>>> getGroupExitedMemberInfo(@Query("groupId") String groupId);
 
-    @POST(SealTalkUrl.GROUP_GET_MEMBER_INFO_DES)
-    LiveData<Result<GroupMemberInfoDes>> getGroupInfoDes(@Body RequestBody body);
+    @GET(SealTalkUrl.GROUP_GET_MEMBER_INFO_DES)
+    LiveData<Result<GroupMemberInfoDes>> getGroupInfoDes(@Query("memberId") String memberId,@Query("groupId") String groupId);
 
     @POST(SealTalkUrl.GROUP_SET_MEMBER_INFO_DES)
-    LiveData<Result<Void>> setGroupInfoDes(@Body RequestBody body);
+    LiveData<Result<Boolean>> setGroupInfoDes(@Body RequestBody body);
 
 }

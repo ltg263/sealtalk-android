@@ -13,6 +13,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.IntentExtra;
 import cn.rongcloud.im.db.model.GroupMemberInfoDes;
@@ -138,14 +141,18 @@ public class GroupUserInfoActivity extends TitleBaseActivity {
         if (!TextUtils.isEmpty(data.getPhone())) {
             etPhone.setText(data.getPhone());
         }
-        if (!TextUtils.isEmpty(data.getWeChat())) {
-            etVchat.setText(data.getWeChat());
+        if (!TextUtils.isEmpty(data.getWechat())) {
+            etVchat.setText(data.getWechat());
         }
         if (!TextUtils.isEmpty(data.getAlipay())) {
             etAliPay.setText(data.getAlipay());
         }
-        if (data.getMemberDesc() != null && data.getMemberDesc().size() > 0) {
-            mAdapter.setData(data.getMemberDesc());
+
+        if (data.getMemberDesc() != null) {
+            String[] str = data.getMemberDesc().replace("\\","").replace("\"","").replace("[","").replace("]","").split(",");
+            if(str.length>0){
+                mAdapter.setData(new ArrayList(Arrays.asList(str)));
+            }
         }
     }
 

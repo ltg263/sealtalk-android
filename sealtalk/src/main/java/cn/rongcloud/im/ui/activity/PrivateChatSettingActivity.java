@@ -164,7 +164,7 @@ public class PrivateChatSettingActivity extends TitleBaseActivity implements Vie
             if (data == null) return;
 
             String displayName = data.getDisplayName();
-            FriendDetailInfo user = data.getUser();
+            FriendShipInfo user = data;
 
             // 设置备注名
             if (!TextUtils.isEmpty(displayName)) {
@@ -220,9 +220,9 @@ public class PrivateChatSettingActivity extends TitleBaseActivity implements Vie
             }
         });
         // 获取设置截屏通知结果
-        privateChatSettingViewModel.getSetScreenCaptureResult().observe(this, new Observer<Resource<Void>>() {
+        privateChatSettingViewModel.getSetScreenCaptureResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> voidResource) {
+            public void onChanged(Resource<Boolean> voidResource) {
                 if (voidResource.status == Status.SUCCESS) {
                 } else if (voidResource.status == Status.ERROR) {
 

@@ -103,10 +103,10 @@ public class UpdateStAccountActivity extends TitleBaseActivity {
     private void setConfirmEnable(boolean isEnable) {
         if (isEnable) {
             titleConfirmTv.setClickable(true);
-            titleConfirmTv.setTextColor(getResources().getColor(android.R.color.white));
+            titleConfirmTv.setTextColor(getResources().getColor(android.R.color.darker_gray));
         } else {
             titleConfirmTv.setClickable(false);
-            titleConfirmTv.setTextColor(getResources().getColor(android.R.color.darker_gray));
+            titleConfirmTv.setTextColor(getResources().getColor(android.R.color.white));
         }
     }
 

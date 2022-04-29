@@ -66,10 +66,10 @@ public class ForwardSearchAdapter extends RecyclerView.Adapter<ForwardCheckViewH
                     @Override
                     public void onItemContactClick(FriendShipInfo friendShipInfo) {
 
-                        if (selectedFriendIds.contains(friendShipInfo.getUser().getId())) {
-                            selectedFriendIds.remove(friendShipInfo.getUser().getId());
+                        if (selectedFriendIds.contains(friendShipInfo.getId())) {
+                            selectedFriendIds.remove(friendShipInfo.getId());
                         } else {
-                            selectedFriendIds.add(friendShipInfo.getUser().getId());
+                            selectedFriendIds.add(friendShipInfo.getId());
                         }
 
                         if (contactItemClickListener != null) {

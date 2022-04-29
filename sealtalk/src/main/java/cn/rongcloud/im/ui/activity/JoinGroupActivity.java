@@ -101,9 +101,9 @@ public class JoinGroupActivity extends TitleBaseActivity implements View.OnClick
 
 
         // 获取加入群组结果
-        joinGroupViewModel.getJoinGroupInfo().observe(this, new Observer<Resource<Void>>() {
+        joinGroupViewModel.getJoinGroupInfo().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 if (resource.status == Status.SUCCESS) {
                     // 群组中包含自己则跳转到群聊天界面
                     toGroupChat();

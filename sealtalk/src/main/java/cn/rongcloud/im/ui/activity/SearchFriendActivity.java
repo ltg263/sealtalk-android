@@ -65,7 +65,9 @@ public class SearchFriendActivity extends TitleBaseActivity implements OnSearchF
                     viewModel.isFriend(friendInfo.getId());
                 } else if (searchFriendInfoResource.status == Status.ERROR
                         || searchFriendInfoResource.data == null) {
-                    Toast.makeText(SearchFriendActivity.this, R.string.seal_account_not_exist, Toast.LENGTH_SHORT).show();
+                    if(searchFriendInfoResource.status != Status.LOADING){
+                        Toast.makeText(SearchFriendActivity.this, R.string.seal_account_not_exist, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

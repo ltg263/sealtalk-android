@@ -87,9 +87,9 @@ public class MyAccountActivity extends TitleBaseActivity implements View.OnClick
                         sAccountSiv.setValue(getString(R.string.seal_mine_my_account_notset));
                     }
                     String gender = resource.data.getGender();
-                    if (TextUtils.isEmpty(gender) || gender.equals("male")) {
+                    if (TextUtils.isEmpty(gender) || gender.equals("1")) {
                         gender = getString(R.string.seal_gender_man);
-                    } else if (gender.equals("female")) {
+                    } else if (gender.equals("2")) {
                         gender = getString(R.string.seal_gender_female);
                     }
                     genderSiv.setValue(gender);

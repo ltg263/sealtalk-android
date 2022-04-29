@@ -27,6 +27,7 @@ public class UserInfoViewModel extends AndroidViewModel {
     private SingleSourceLiveData<Resource<Result>> changePasswordResult = new SingleSourceLiveData<>();
     private SingleSourceLiveData<Resource<Result>> setStAccountResult = new SingleSourceLiveData<>();
     private SingleSourceLiveData<Resource<Result>> setGenderResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> userCloseResult = new SingleSourceLiveData<>();
 
     public UserInfoViewModel(@NonNull Application application) {
         super(application);
@@ -140,6 +141,14 @@ public class UserInfoViewModel extends AndroidViewModel {
      */
     public void changePassword(String oldPassword, String newPassword) {
         changePasswordResult.setSource(userTask.changePassword(oldPassword, newPassword));
+    }
+
+    public void userClose(String sessionId,String code) {
+        userCloseResult.setSource(userTask.userClose(sessionId, code));
+    }
+
+    public SingleSourceLiveData<Resource<Boolean>> getUserCloseResult() {
+        return userCloseResult;
     }
 
     /**

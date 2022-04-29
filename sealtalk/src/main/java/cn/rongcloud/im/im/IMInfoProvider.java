@@ -291,10 +291,10 @@ public class IMInfoProvider {
                     List<io.rong.imlib.model.UserInfo> userInfoList = new ArrayList<>();
                     if (friendShipInfoList != null) {
                         for (FriendShipInfo info : friendShipInfoList) {
-                            if (info.getStatus() != FriendStatus.IS_FRIEND.getStatusCode()) {
+                            if (info.getFriendshipStatus() != FriendStatus.IS_FRIEND.getStatusCode()) {
                                 continue;
                             }
-                            FriendDetailInfo friendUser = info.getUser();
+                            FriendShipInfo friendUser = info;
                             if (friendUser != null) {
                                 io.rong.imlib.model.UserInfo user = new io.rong.imlib.model.UserInfo(friendUser.getId(), friendUser.getNickname(), Uri.parse(friendUser.getPortraitUri()));
                                 if (!TextUtils.isEmpty(info.getDisplayName())) {
@@ -328,7 +328,7 @@ public class IMInfoProvider {
                     FriendShipInfo data = resource.data;
                     List<io.rong.imlib.model.UserInfo> userInfoList = new ArrayList<>();
                     if (data != null) {
-                        FriendDetailInfo friendUser = data.getUser();
+                        FriendShipInfo friendUser = data;
                         if (friendUser != null) {
                             io.rong.imlib.model.UserInfo user = new io.rong.imlib.model.UserInfo(friendUser.getId(), friendUser.getNickname(), Uri.parse(friendUser.getPortraitUri()));
                             userInfoList.add(user);

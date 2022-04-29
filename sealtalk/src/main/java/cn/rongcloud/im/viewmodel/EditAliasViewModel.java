@@ -16,7 +16,7 @@ import cn.rongcloud.im.utils.SingleSourceLiveData;
  * 设置别名视图模型
  */
 public class EditAliasViewModel extends AndroidViewModel {
-    private SingleSourceLiveData<Resource<Void>> setAliasResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> setAliasResult = new SingleSourceLiveData<>();
 
     private String userId;
     private FriendTask friendTask;
@@ -45,7 +45,7 @@ public class EditAliasViewModel extends AndroidViewModel {
      *
      * @return
      */
-    public LiveData<Resource<Void>> getSetAliasResult() {
+    public LiveData<Resource<Boolean>> getSetAliasResult() {
         return setAliasResult;
     }
 

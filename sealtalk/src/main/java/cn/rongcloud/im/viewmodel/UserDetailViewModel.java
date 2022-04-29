@@ -37,7 +37,7 @@ public class UserDetailViewModel extends AndroidViewModel {
     private SingleSourceMapLiveData<Resource<AddFriendResult>, Resource<AddFriendResult>> inviteResult;
     private SingleSourceMapLiveData<Resource<Void>, Resource<Void>> addBlackListResult;
     private SingleSourceMapLiveData<Resource<Void>, Resource<Void>> removeBlackListResult;
-    private SingleSourceLiveData<Resource<Void>> removeFriendResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> removeFriendResult = new SingleSourceLiveData<>();
     private LiveData<Boolean> isInBlackList;
     private SingleSourceLiveData<Resource<FriendDescription>> friendDescription = new SingleSourceLiveData<>();
     private SingleSourceLiveData<Resource<GroupMemberInfoDes>> groupMemberInfoDes = new SingleSourceLiveData<>();
@@ -154,12 +154,13 @@ public class UserDetailViewModel extends AndroidViewModel {
         removeFriendResult.setSource(friendTask.deleteFriend(friendId));
     }
 
+
     /**
      * 获取删除好友结果
      *
      * @return
      */
-    public LiveData<Resource<Void>> getDeleteFriendResult() {
+    public LiveData<Resource<Boolean>> getDeleteFriendResult() {
         return removeFriendResult;
     }
 
@@ -202,7 +203,7 @@ public class UserDetailViewModel extends AndroidViewModel {
     /**
      * 刷新好友列表
      */
-    private void updateFriendList() {
+    public void updateFriendList() {
         LiveData<Resource<List<FriendShipInfo>>> allFriends = friendTask.getAllFriends();
         allFriends.observeForever(new Observer<Resource<List<FriendShipInfo>>>() {
             @Override

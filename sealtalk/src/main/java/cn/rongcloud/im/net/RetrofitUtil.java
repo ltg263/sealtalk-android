@@ -1,5 +1,7 @@
 package cn.rongcloud.im.net;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -18,6 +20,7 @@ public class RetrofitUtil {
     public static RequestBody createJsonRequest(HashMap<String,Object> paramsMap){
         Gson gson = new Gson();
         String strEntity = gson.toJson(paramsMap);
+        Log.w("RetrofitUtil","api url = "+strEntity);
         return RequestBody.create(MEDIA_TYPE_JSON,strEntity);
     }
 }

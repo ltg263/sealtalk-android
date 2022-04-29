@@ -1,12 +1,14 @@
 package cn.rongcloud.im.model;
 
+import android.util.Log;
+
 import androidx.room.ColumnInfo;
 
 public class GroupMember {
-
+    //群内角色@(0:普通成员,1:创建者,2:管理员)
     public enum Role {
-        GROUP_OWNER(0),
-        MEMBER(1),
+        GROUP_OWNER(1),
+        MEMBER(0),
         MANAGEMENT(2);
 
         int value;
@@ -19,8 +21,11 @@ public class GroupMember {
         }
 
         public static Role getRole(int value) {
-            if (value >= 0 && value < Role.values().length) {
-                return Role.values()[value];
+            if (value == 1){
+                return GROUP_OWNER;
+            }
+            if(value == 2){
+                return MANAGEMENT;
             }
             return MEMBER;
         }
@@ -111,6 +116,7 @@ public class GroupMember {
     }
 
     public Role getMemberRole() {
+        Log.w("--->>>","role:"+role);
         return Role.getRole(role);
     }
 

@@ -54,7 +54,7 @@ public class UpdateGenderActivity extends TitleBaseActivity implements View.OnCl
             public void onChanged(Resource<UserInfo> userInfoResource) {
                 if (userInfoResource.data != null) {
                     String gender = userInfoResource.data.getGender();
-                    if (TextUtils.isEmpty(gender) || gender.equals("male")) {
+                    if (TextUtils.isEmpty(gender) || gender.equals("1")) {
                         updateGenderStatus(GENDER_MAN);
                     } else {
                         updateGenderStatus(GENDER_FEMALE);
@@ -104,7 +104,7 @@ public class UpdateGenderActivity extends TitleBaseActivity implements View.OnCl
     }
 
     private void setGender() {
-        String gender = (currentType == GENDER_MAN) ? "male" : "female";
+        String gender = (currentType == GENDER_MAN) ? "1" : "2";
         userInfoViewModel.setGender(gender);
     }
 }

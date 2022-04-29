@@ -141,7 +141,7 @@ public class SelectConversationViewModel extends AndroidViewModel {
                 if (model.getBean() instanceof GroupEntity) {
                     id = ((GroupEntity) model.getBean()).getId();
                 } else if (model.getBean() instanceof FriendShipInfo) {
-                    id = ((FriendShipInfo) model.getBean()).getUser().getId();
+                    id = ((FriendShipInfo) model.getBean()).getId();
                 }
                 strings.add(id);
             }
@@ -197,7 +197,7 @@ public class SelectConversationViewModel extends AndroidViewModel {
                         targetId = ((GroupEntity) model.getBean()).getId();
                         conversationType = Conversation.ConversationType.GROUP;
                     } else if (model.getBean() instanceof FriendShipInfo) {
-                        targetId = ((FriendShipInfo) model.getBean()).getUser().getId();
+                        targetId = ((FriendShipInfo) model.getBean()).getId();
                         conversationType = Conversation.ConversationType.PRIVATE;
                     }
                     IMManager.getInstance().clearConversationAndMessage(targetId, conversationType);

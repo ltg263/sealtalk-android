@@ -35,31 +35,31 @@ public class PrivacyTask {
     /**
      * 用户隐私设置（可同时设置多项，传-1为不设置，0允许，1不允许）
      *
-     * @param phoneVerify    是否可以通过电话号码查找
-     * @param stSearchVerify 是否可以通过 SealTalk 号查找
-     * @param friVerify      加好友验证
-     * @param groupVerify    允许直接添加至群聊
+     * @param phoneSearch    是否可以通过电话号码查找
+     * @param accountSearch 是否可以通过 SealTalk 号查找
+     * @param friendshipVerify      加好友验证
+     * @param addGroupVerify    允许直接添加至群聊
      * @return
      */
-    public LiveData<Resource<Void>> setPrivacy(int phoneVerify, int stSearchVerify,
-                                               int friVerify, int groupVerify) {
+    public LiveData<Resource<Void>> setPrivacy(int phoneSearch, int accountSearch,
+                                               int friendshipVerify, int addGroupVerify) {
         return new NetworkOnlyResource<Void, Result>() {
 
             @NonNull
             @Override
             protected LiveData<Result> createCall() {
                 HashMap<String, Object> paramMap = new HashMap<>();
-                if (phoneVerify != -1) {
-                    paramMap.put("phoneVerify", phoneVerify);
+                if (phoneSearch != -1) {
+                    paramMap.put("phoneSearch", phoneSearch);
                 }
-                if (stSearchVerify != -1) {
-                    paramMap.put("stSearchVerify", stSearchVerify);
+                if (accountSearch != -1) {
+                    paramMap.put("accountSearch", accountSearch);
                 }
-                if (friVerify != -1) {
-                    paramMap.put("friVerify", friVerify);
+                if (friendshipVerify != -1) {
+                    paramMap.put("friendshipVerify", friendshipVerify);
                 }
-                if (groupVerify != -1) {
-                    paramMap.put("groupVerify", groupVerify);
+                if (addGroupVerify != -1) {
+                    paramMap.put("addGroupVerify", addGroupVerify);
                 }
                 return privacyService.setPrivacy(RetrofitUtil.createJsonRequest(paramMap));
             }
@@ -117,12 +117,12 @@ public class PrivacyTask {
      * @param noticeStatus     0 关闭 1 打开
      * @return
      */
-    public LiveData<Resource<Void>> setScreenCapture(int conversationType, String targetId, int noticeStatus) {
-        return new NetworkOnlyResource<Void, Result<Void>>() {
+    public LiveData<Resource<Boolean>> setScreenCapture(int conversationType, String targetId, int noticeStatus) {
+        return new NetworkOnlyResource<Boolean, Result<Boolean>>() {
 
             @NonNull
             @Override
-            protected LiveData<Result<Void>> createCall() {
+            protected LiveData<Result<Boolean>> createCall() {
                 HashMap<String, Object> paramMap = new HashMap<>();
                 paramMap.put("conversationType", conversationType);
                 paramMap.put("targetId", targetId);
@@ -131,7 +131,7 @@ public class PrivacyTask {
             }
 
             @Override
-            protected void saveCallResult(@NonNull Void item) {
+            protected void saveCallResult(@NonNull Boolean item) {
                 super.saveCallResult(item);
                 userConfigCache.setScreenCaptureStatus(noticeStatus);
             }

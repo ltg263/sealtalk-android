@@ -200,12 +200,12 @@ public abstract class CommonListBaseViewModel extends AppViewModel {
      * @return
      */
     protected ListItemModel createFriendModel(FriendShipInfo info) {
-        String name = TextUtils.isEmpty(info.getDisplayName()) ? info.getUser().getNickname() : info.getDisplayName();
+        String name = TextUtils.isEmpty(info.getDisplayName()) ? info.getNickname() : info.getDisplayName();
         ListItemModel.ItemView itemView = new ListItemModel
                 .ItemView(R.layout.item_common_conversation, ListItemModel.ItemView.Type.FRIEND, CommonFriendItemViewHolder.class);
-        ListItemModel<FriendShipInfo> model = new ListItemModel<>(info.getUser().getId(), name, info, itemView);
-        model.setPortraitUrl(info.getUser().getPortraitUri());
-        model.setFirstChar(info.getUser().getFirstCharacter());
+        ListItemModel<FriendShipInfo> model = new ListItemModel<>(info.getId(), name, info, itemView);
+        model.setPortraitUrl(info.getPortraitUri());
+        model.setFirstChar(info.getFirstCharacter());
         return model;
     }
 

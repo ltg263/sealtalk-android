@@ -69,9 +69,9 @@ public class ForwardActivityViewModel extends AndroidViewModel {
         if (friendShipInfoList != null) {
             for (FriendShipInfo friendShipInfo : friendShipInfoList) {
                 if (useSDKForward) {
-                    conversationList.add(Conversation.obtain(Conversation.ConversationType.PRIVATE, friendShipInfo.getUser().getId(), ""));
+                    conversationList.add(Conversation.obtain(Conversation.ConversationType.PRIVATE, friendShipInfo.getId(), ""));
                 } else {
-                    forwardMessage(Conversation.ConversationType.PRIVATE, friendShipInfo.getUser().getId(), messageList);
+                    forwardMessage(Conversation.ConversationType.PRIVATE, friendShipInfo.getId(), messageList);
                 }
             }
         }

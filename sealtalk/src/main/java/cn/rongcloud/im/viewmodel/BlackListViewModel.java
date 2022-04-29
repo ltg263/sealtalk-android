@@ -65,7 +65,7 @@ public class BlackListViewModel extends AndroidViewModel {
     /**
      * 获取黑名单
      */
-    private void getBlackList() {
+    public void getBlackList() {
         blacklistResult.setSource(userTask.getBlackList());
     }
 

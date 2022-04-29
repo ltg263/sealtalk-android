@@ -72,11 +72,11 @@ public class ApiErrorCodeMap {
      */
     public final static HashMap<String, Integer> QUERY_PATH_REG_PREFIX_MAP = new HashMap<String, Integer>() {
         {
-            put("/user/[a-zA-Z0-9+=-_]*", SealTalkUrlCode.GET_USER_INFO);
-            put("/group/[a-zA-Z0-9+=-_]*", SealTalkUrlCode.GROUP_GET_INFO);
-            put("/group/[a-zA-Z0-9+=-_]*/members", SealTalkUrlCode.GROUP_GET_MEMBER_INFO);
-            put("/friendship/[a-zA-Z0-9+=-_]*/profile", SealTalkUrlCode.GET_FRIEND_PROFILE);
-            put("/user/find/[a-zA-Z0-9+=-_]*/[a-zA-Z0-9+=-_]*", SealTalkUrlCode.FIND_FRIEND);
+            put("/api/im/user/[a-zA-Z0-9+=-_]*", SealTalkUrlCode.GET_USER_INFO);
+            put("/api/im/group/[a-zA-Z0-9+=-_]*", SealTalkUrlCode.GROUP_GET_INFO);
+            put("/api/im/group/[a-zA-Z0-9+=-_]*/members", SealTalkUrlCode.GROUP_GET_MEMBER_INFO);
+            put("/api/im/friendship/[a-zA-Z0-9+=-_]*/profile", SealTalkUrlCode.GET_FRIEND_PROFILE);
+            put("/api/im/user/find/[a-zA-Z0-9+=-_]*/[a-zA-Z0-9+=-_]*", SealTalkUrlCode.FIND_FRIEND);
         }
     };
 

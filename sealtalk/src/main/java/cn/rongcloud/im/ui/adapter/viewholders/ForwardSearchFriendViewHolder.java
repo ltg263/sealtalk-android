@@ -73,7 +73,7 @@ public class ForwardSearchFriendViewHolder extends ForwardCheckViewHolder<Search
         }
 
         FriendShipInfo friendShipInfo = searchFriendModel.getBean();
-        FriendDetailInfo info = friendShipInfo.getUser();
+        FriendShipInfo info = friendShipInfo;
 
         if (!TextUtils.isEmpty(friendShipInfo.getDisplayName())) {
             llDescription.setVisibility(View.VISIBLE);

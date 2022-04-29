@@ -35,9 +35,9 @@ public class LoginViewModel extends AndroidViewModel {
 
     private SingleSourceMapLiveData<Resource<RegisterResult>, Resource<RegisterResult>> registerResult ;
 
-    private SingleSourceLiveData<Resource<Boolean>>  checkPhoneResult= new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Object>>  checkPhoneResult= new SingleSourceLiveData<>();
 
-    private SingleSourceMapLiveData<Resource<String>, Resource<String>> resetPasswordResult ;
+    private SingleSourceMapLiveData<Resource<Boolean>, Resource<Boolean>> resetPasswordResult ;
 
     private MediatorLiveData<Resource<String>> checkPhoneAndSendCodeResult = new MediatorLiveData<>();
 
@@ -92,9 +92,9 @@ public class LoginViewModel extends AndroidViewModel {
         });
 
         // 重设密码
-        resetPasswordResult = new SingleSourceMapLiveData<>(new Function<Resource<String>, Resource<String>>() {
+        resetPasswordResult = new SingleSourceMapLiveData<>(new Function<Resource<Boolean>, Resource<Boolean>>() {
             @Override
-            public Resource<String> apply(Resource<String> input) {
+            public Resource<Boolean> apply(Resource<Boolean> input) {
                 if (input.status != Status.LOADING && input.code != ErrorCode.CHECK_VERIFY_CODE_FAILED.getCode()) {
                     // 停止计时. 除了验证码错误
                     stopCodeCountDown();
@@ -187,7 +187,7 @@ public class LoginViewModel extends AndroidViewModel {
      * 重置密码
      * @return
      */
-    public LiveData<Resource<String>> getResetPasswordResult() {
+    public LiveData<Resource<Boolean>> getResetPasswordResult() {
         return resetPasswordResult;
     }
 
@@ -200,6 +200,21 @@ public class LoginViewModel extends AndroidViewModel {
      */
     public void sendCode(String phoneCode, String phoneNumber) {
         sendCodeState.setSource(userTask.sendCode(phoneCode, phoneNumber));
+    }
+    /**
+     * 账号注销发送验证码
+     */
+    public void sendCodeAccountClose() {
+        sendCodeState.setSource(userTask.sendCodeAccountClose());
+    }
+
+    /**
+     * 重置发送验证码
+     * @param phoneCode 国家区域手机区号
+     * @param phoneNumber 手机号
+     */
+    public void sendCodeResetPassword(String phoneCode, String phoneNumber) {
+        sendCodeState.setSource(userTask.sendCodeResetPassword(phoneCode, phoneNumber));
     }
 
     /**
@@ -226,13 +241,12 @@ public class LoginViewModel extends AndroidViewModel {
 
     /**
      * 重设置密码
-     * @param countryCode
-     * @param phoneNumber
+     * @param sessionId
      * @param shortMsgCode
      * @param password
      */
-    public void resetPassword(String countryCode, String phoneNumber, String shortMsgCode, String password) {
-        resetPasswordResult.setSource(userTask.resetPassword(countryCode, phoneNumber, shortMsgCode, password));
+    public void resetPassword(String sessionId, String shortMsgCode, String password) {
+        resetPasswordResult.setSource(userTask.resetPassword(sessionId, shortMsgCode, password));
     }
 
 
@@ -245,9 +259,9 @@ public class LoginViewModel extends AndroidViewModel {
     public void checkPhoneAndSendCode(String phoneCode, String phoneNumber) {
         checkPhoneAvailable(phoneCode, phoneNumber);
         checkPhoneAndSendCodeResult.removeSource(checkPhoneResult);
-        checkPhoneAndSendCodeResult.addSource(checkPhoneResult, new Observer<Resource<Boolean>>() {
+        checkPhoneAndSendCodeResult.addSource(checkPhoneResult, new Observer<Resource<Object>>() {
             @Override
-            public void onChanged(Resource<Boolean> resource) {
+            public void onChanged(Resource<Object> resource) {
                 if (resource.status == Status.SUCCESS) {
                     checkPhoneAndSendCodeResult.removeSource(checkPhoneResult);
                     sendCode(phoneCode, phoneNumber);

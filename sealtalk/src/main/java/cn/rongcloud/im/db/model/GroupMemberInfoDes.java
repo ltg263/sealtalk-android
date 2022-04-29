@@ -8,6 +8,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Entity(tableName = "group_member_info_des", primaryKeys = {"groupId", "memberId"})
 public class GroupMemberInfoDes implements Parcelable {
@@ -30,13 +31,13 @@ public class GroupMemberInfoDes implements Parcelable {
     private String phone;
 
     @ColumnInfo(name = "WeChat")
-    private String WeChat;
+    private String wechat;
 
     @ColumnInfo(name = "Alipay")
-    private String Alipay;
+    private String alipay;
 
     @ColumnInfo(name = "memberDesc")
-    private ArrayList<String> memberDesc;
+    private String memberDesc;
 
     public String getGroupId() {
         return groupId;
@@ -78,31 +79,32 @@ public class GroupMemberInfoDes implements Parcelable {
         this.phone = phone;
     }
 
-    public String getWeChat() {
-        return WeChat;
+    public String getWechat() {
+        return wechat;
     }
 
-    public void setWeChat(String weChat) {
-        WeChat = weChat;
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
     }
+
 
     public String getAlipay() {
-        return Alipay;
+        return alipay;
     }
 
     public void setAlipay(String alipay) {
-        Alipay = alipay;
+        this.alipay = alipay;
     }
 
-    public ArrayList<String> getMemberDesc() {
+    public String getMemberDesc() {
         return memberDesc;
     }
 
-    public void setMemberDesc(ArrayList<String> memberDesc) {
+
+    public void setMemberDesc(String memberDesc) {
         this.memberDesc = memberDesc;
     }
 
-    @Override
     public int describeContents() {
         return 0;
     }
@@ -114,9 +116,9 @@ public class GroupMemberInfoDes implements Parcelable {
         dest.writeString(this.groupNickname);
         dest.writeString(this.region);
         dest.writeString(this.phone);
-        dest.writeString(this.WeChat);
-        dest.writeString(this.Alipay);
-        dest.writeStringList(this.memberDesc);
+        dest.writeString(this.wechat);
+        dest.writeString(this.alipay);
+        dest.writeString(this.memberDesc);
     }
 
     public GroupMemberInfoDes() {
@@ -128,9 +130,9 @@ public class GroupMemberInfoDes implements Parcelable {
         this.groupNickname = in.readString();
         this.region = in.readString();
         this.phone = in.readString();
-        this.WeChat = in.readString();
-        this.Alipay = in.readString();
-        this.memberDesc = in.createStringArrayList();
+        this.wechat = in.readString();
+        this.alipay = in.readString();
+        this.memberDesc = in.readString();
     }
 
     public static final Creator<GroupMemberInfoDes> CREATOR = new Creator<GroupMemberInfoDes>() {
@@ -153,8 +155,8 @@ public class GroupMemberInfoDes implements Parcelable {
                 ", groupNickname='" + groupNickname + '\'' +
                 ", region='" + region + '\'' +
                 ", phone='" + phone + '\'' +
-                ", WeChat='" + WeChat + '\'' +
-                ", Alipay='" + Alipay + '\'' +
+                ", WeChat='" + wechat + '\'' +
+                ", Alipay='" + alipay + '\'' +
                 ", memberDesc=" + memberDesc +
                 '}';
     }

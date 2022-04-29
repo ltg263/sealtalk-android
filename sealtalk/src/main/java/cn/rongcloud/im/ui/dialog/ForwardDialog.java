@@ -58,8 +58,8 @@ public class ForwardDialog extends CommonDialog {
 
             if (friendList != null && friendList.size() > 0) {
                 final FriendShipInfo friendShipInfo = friendList.get(0);
-                selectSingleUiv.setName(TextUtils.isEmpty(friendShipInfo.getDisplayName()) ? friendShipInfo.getUser().getNickname() : friendShipInfo.getDisplayName());
-                ImageLoaderUtils.displayGroupPortraitImage(friendShipInfo.getUser().getPortraitUri(), selectSingleUiv.getHeaderImageView());
+                selectSingleUiv.setName(TextUtils.isEmpty(friendShipInfo.getDisplayName()) ? friendShipInfo.getNickname() : friendShipInfo.getDisplayName());
+                ImageLoaderUtils.displayGroupPortraitImage(friendShipInfo.getPortraitUri(), selectSingleUiv.getHeaderImageView());
             }
 
         } else {
@@ -83,7 +83,7 @@ public class ForwardDialog extends CommonDialog {
                     final AsyncImageView asyncImageView = new AsyncImageView(getContext());
                     asyncImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     multiContainer.addView(asyncImageView, params);
-                    ImageLoaderUtils.displayGroupPortraitImage(info.getUser().getPortraitUri(), asyncImageView);
+                    ImageLoaderUtils.displayGroupPortraitImage(info.getPortraitUri(), asyncImageView);
                 }
             }
         }

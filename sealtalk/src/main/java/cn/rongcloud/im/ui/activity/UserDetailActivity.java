@@ -22,6 +22,7 @@ import java.util.Locale;
 
 import cn.rongcloud.im.R;
 import cn.rongcloud.im.common.IntentExtra;
+import cn.rongcloud.im.common.ResultCallback;
 import cn.rongcloud.im.db.model.FriendDescription;
 import cn.rongcloud.im.db.model.FriendStatus;
 import cn.rongcloud.im.db.model.GroupEntity;
@@ -45,6 +46,7 @@ import io.rong.callkit.RongVoIPIntent;
 import io.rong.calllib.RongCallClient;
 import io.rong.calllib.RongCallCommon;
 import io.rong.calllib.RongCallSession;
+import io.rong.imkit.IMCenter;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -199,6 +201,7 @@ public class UserDetailActivity extends TitleBaseActivity implements View.OnClic
                 if (!isInDeleteAction) {
                     if (resource.status == Status.SUCCESS) {
                         ToastUtils.showToast(R.string.common_add_successful);
+                        finish();
                     } else if (resource.status == Status.ERROR) {
                         ToastUtils.showToast(resource.message);
                     }
@@ -219,13 +222,24 @@ public class UserDetailActivity extends TitleBaseActivity implements View.OnClic
         });
 
         // 获取删除好友
-        userDetailViewModel.getDeleteFriendResult().observe(this, new Observer<Resource<Void>>() {
+        userDetailViewModel.getDeleteFriendResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 if (resource.status == Status.SUCCESS) {
                     ToastUtils.showToast(R.string.common_delete_successful);
                     // 删除成功后关闭界面
-                    finish();
+                    userDetailViewModel.updateFriendList();
+                    IMCenter.getInstance().removeConversation(Conversation.ConversationType.PRIVATE, userId, new RongIMClient.ResultCallback<Boolean>() {
+                        @Override
+                        public void onSuccess(Boolean aBoolean) {
+                            finish();
+                        }
+
+                        @Override
+                        public void onError(RongIMClient.ErrorCode errorCode) {
+
+                        }
+                    });
                 } else if (resource.status == Status.ERROR) {
                     // 删除失败时置回删除行为
                     isInDeleteAction = false;
@@ -276,7 +290,7 @@ public class UserDetailActivity extends TitleBaseActivity implements View.OnClic
     private void updateMemberProtectStatus(GroupEntity groupEntity) {
         if (groupEntity != null) {
             // 1 为开启了群成员保护模式
-            if (groupEntity.getMemberProtection() == 1) {
+            if (groupEntity.isMemberProtect()) {
                 FriendStatus friendStatus = FriendStatus.getStatus(latestUserInfo.getFriendStatus());
                 if (!(friendStatus == FriendStatus.IS_FRIEND
                         || friendStatus == FriendStatus.IN_BLACK_LIST)) {
@@ -419,7 +433,7 @@ public class UserDetailActivity extends TitleBaseActivity implements View.OnClic
         }
         //显示性别图标
         Drawable drawable;
-        if (TextUtils.isEmpty(userInfo.getGender()) || "male".equals(userInfo.getGender())) {
+        if (TextUtils.isEmpty(userInfo.getGender()) || "1".equals(userInfo.getGender())) {
             drawable = getResources().getDrawable(R.drawable.seal_account_man);
         } else {
             drawable = getResources().getDrawable(R.drawable.seal_account_female);
@@ -552,7 +566,7 @@ public class UserDetailActivity extends TitleBaseActivity implements View.OnClic
                         // 标记正在删除好友
                         isInDeleteAction = true;
                         userDetailViewModel.deleteFriend(userId);
-                        userDetailViewModel.addToBlackList();
+//                        userDetailViewModel.addToBlackList();
                     }
 
                     @Override

@@ -104,6 +104,7 @@ public class LoginFindPasswordFragment extends BaseFragment{
             public void onChanged(Resource<String> resource) {
                 // 提示
                 if (resource.status == Status.SUCCESS) {
+                    sessionId = resource.data;
                     showToast(R.string.seal_login_toast_send_code_success);
                 } else if (resource.status == Status.LOADING) {
 
@@ -134,9 +135,9 @@ public class LoginFindPasswordFragment extends BaseFragment{
             }
         });
 
-        loginViewModel.getResetPasswordResult().observe(this, new Observer<Resource<String>>() {
+        loginViewModel.getResetPasswordResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<String> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 if (resource.status == Status.SUCCESS) {
 
                     if (listener != null) {
@@ -187,7 +188,6 @@ public class LoginFindPasswordFragment extends BaseFragment{
                 if (TextUtils.isEmpty(phoneStr)) {
                    showToast(R.string.seal_login_toast_phone_number_is_null);
                 }
-
                 sendCodeBtn.setEnabled(false);
                 phoneEdit.setEnabled(false);
                 checkPhoneAndSendCode(phoneCodeStr, phoneStr);
@@ -237,15 +237,13 @@ public class LoginFindPasswordFragment extends BaseFragment{
                     showToast(R.string.seal_login_toast_not_send_code);
                     return;
                 }
-
-                resetPassword(fpCountryCodeStr, fpPhoneStr, fpCodeStr, fpPasswordStr);
-
+                resetPassword(sessionId, fpCodeStr, fpPasswordStr);
                 break;
             default:
                 break;
         }
     }
-
+    String sessionId = "";
     /**
      * 检测手机并发送验证码
      * @param phoneCode
@@ -257,13 +255,12 @@ public class LoginFindPasswordFragment extends BaseFragment{
 
     /**
      * 重写设置密码
-     * @param countryCode
-     * @param phoneNumber
+     * @param sessionId
      * @param shortMsgCode
      * @param password
      */
-    private void resetPassword(String countryCode, String phoneNumber, String shortMsgCode, String password) {
-        loginViewModel.resetPassword(countryCode, phoneNumber, shortMsgCode, password);
+    private void resetPassword( String sessionId, String shortMsgCode, String password) {
+        loginViewModel.resetPassword(sessionId, shortMsgCode, password);
     }
 
 

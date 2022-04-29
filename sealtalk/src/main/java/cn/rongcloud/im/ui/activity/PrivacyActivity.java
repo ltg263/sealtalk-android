@@ -46,6 +46,14 @@ public class PrivacyActivity extends TitleBaseActivity {
                 startActivity(new Intent(PrivacyActivity.this, BlackListActivity.class));
             }
         });
+
+        findViewById(R.id.siv_yonghuzhuxiao).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PrivacyActivity.this, ZhuXiaoCheckActivity.class));
+            }
+        });
+
         phoneSiv = findViewById(R.id.siv_search_phone);
         phoneSiv.setSwitchTouchListener(new View.OnTouchListener() {
             @Override
@@ -167,22 +175,22 @@ public class PrivacyActivity extends TitleBaseActivity {
     private void updateView(Resource<PrivacyResult> privacyResultResource) {
         if (privacyResultResource.status == Status.SUCCESS) {
             if (privacyResultResource.data != null) {
-                if (privacyResultResource.data.phoneVerify == PrivacyResult.State.ALLOW.getValue()) {
+                if (privacyResultResource.data.phoneSearch) {
                     phoneSiv.setCheckedImmediately(true);
                 } else {
                     phoneSiv.setCheckedImmediately(false);
                 }
-                if (privacyResultResource.data.stSearchVerify == PrivacyResult.State.ALLOW.getValue()) {
+                if (privacyResultResource.data.accountSearch) {
                     stAccountSiv.setCheckedImmediately(true);
                 } else {
                     stAccountSiv.setCheckedImmediately(false);
                 }
-                if (privacyResultResource.data.friVerify == PrivacyResult.State.ALLOW.getValue()) {
+                if (privacyResultResource.data.friendshipVerify) {
                     friendVerifySiv.setCheckedImmediately(true);
                 } else {
                     friendVerifySiv.setCheckedImmediately(false);
                 }
-                if (privacyResultResource.data.groupVerify == PrivacyResult.State.ALLOW.getValue()) {
+                if (privacyResultResource.data.addGroupVerify) {
                     groupVerifySiv.setCheckedImmediately(true);
                 } else {
                     groupVerifySiv.setCheckedImmediately(false);

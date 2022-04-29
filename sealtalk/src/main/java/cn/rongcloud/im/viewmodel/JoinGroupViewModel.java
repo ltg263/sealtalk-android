@@ -21,7 +21,7 @@ public class JoinGroupViewModel extends AndroidViewModel {
     private GroupTask groupTask;
 
     private SingleSourceLiveData<Resource<GroupEntity>> groupInfo = new SingleSourceLiveData<>();
-    private SingleSourceLiveData<Resource<Void>> joinGroupResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> joinGroupResult = new SingleSourceLiveData<>();
 
     public JoinGroupViewModel(@NonNull Application application) {
         super(application);
@@ -51,7 +51,7 @@ public class JoinGroupViewModel extends AndroidViewModel {
      *
      * @return
      */
-    public LiveData<Resource<Void>> getJoinGroupInfo() {
+    public LiveData<Resource<Boolean>> getJoinGroupInfo() {
         return joinGroupResult;
     }
 

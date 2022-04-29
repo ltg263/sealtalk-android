@@ -46,11 +46,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private static final int FRAGMENT_REGISTER = 1;
     private static final int FRAGMENT_FIND_PASSWORD = 2;
     private static final String BUNDLE_LAST_SELECTED_FRAGMENT = "last_select_fragment";
-    private Fragment[] fragments = new Fragment[1];
-
+    private Fragment[] fragments = new Fragment[3];
     private View loginBg;
     private TextView changLang;
-    private TextView registerRight;
     private TextView registerLeft;
     private TextView findPassword;
     private TextView toLogin;
@@ -94,10 +92,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      */
     private void initView() {
         loginBg = findViewById(R.id.iv_login_bg);
+        loginBg.setVisibility(View.GONE);
         changLang = findViewById(R.id.tv_change_lang);
 
         registerLeft = findViewById(R.id.tv_register_left);
-        registerRight = findViewById(R.id.tv_register_right);
         findPassword = findViewById(R.id.tv_find_passsword);
         toLogin = findViewById(R.id.tv_login);
         mSealTalkVersion = findViewById(R.id.tv_seal_talk_version);
@@ -105,14 +103,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         changLang.setOnClickListener(this);
         registerLeft.setOnClickListener(this);
-        registerRight.setOnClickListener(this);
         findPassword.setOnClickListener(this);
         toLogin.setOnClickListener(this);
 
         //默认是登录界面
         controlBottomView(currentFragmentIndex);
 
-        startBgAnimation();
+//        startBgAnimation();
 
         // 判断是否被其他用户踢出到此界面
         Intent intent = getIntent();
@@ -170,8 +167,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //                registerRight.setVisibility(View.GONE);
 //                findPassword.setVisibility(View.GONE);
 //                toLogin.setVisibility(View.VISIBLE);
+                findPassword.setVisibility(View.GONE);
                 break;
             case FRAGMENT_LOGIN:
+                if(toLogin.getText().toString().equals("账号密码登录")){
+                    toLogin.setText("验证码登录");
+                    findPassword.setVisibility(View.VISIBLE);
+                }else{
+                    toLogin.setText("账号密码登录");
+                    findPassword.setVisibility(View.GONE);
+                }
 //                registerLeft.setVisibility(View.GONE);
 //                registerRight.setVisibility(View.VISIBLE);
 //                findPassword.setVisibility(View.VISIBLE);
@@ -197,6 +202,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
             }
             if (index == i) {
+                if(index == FRAGMENT_LOGIN && fragment instanceof LoginFragment){
+                    ((LoginFragment)fragment).setLoginType_yzm(toLogin.getText().toString().equals("账号密码登录"));
+                }
                 fragmentTransaction.show(fragment);
             } else {
                 fragmentTransaction.hide(fragment);
@@ -283,7 +291,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_register_left:
-            case R.id.tv_register_right:
                 controlBottomView(FRAGMENT_REGISTER);
                 break;
             case R.id.tv_login:

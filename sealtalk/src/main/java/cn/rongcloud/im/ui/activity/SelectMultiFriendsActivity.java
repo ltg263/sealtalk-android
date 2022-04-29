@@ -87,14 +87,14 @@ public class SelectMultiFriendsActivity extends SelectBaseActivity implements Vi
         Object bean = checkableContactModel.getBean();
         if (bean instanceof FriendShipInfo) {
             FriendShipInfo friendShipInfo = (FriendShipInfo) bean;
-            String portraitUri = friendShipInfo.getUser().getPortraitUri();
+            String portraitUri = friendShipInfo.getPortraitUri();
             if (checkableContactModel.getCheckType() == CheckType.CHECKED) {
                 View view = LayoutInflater.from(this).inflate(R.layout.item_select_content, null, false);
                 SelectableRoundedImageView ivPortrait = view.findViewById(R.id.iv_portrait);
                 if (!TextUtils.isEmpty(portraitUri)) {
                     ImageLoaderUtils.displayUserPortraitImage(portraitUri, ivPortrait);
                 }
-                selectViewMap.put(friendShipInfo.getUser().getId(), view);
+                selectViewMap.put(friendShipInfo.getId(), view);
                 llSelectContent.addView(view);
                 llSelectContent.post(new Runnable() {
                     @Override
@@ -103,7 +103,7 @@ public class SelectMultiFriendsActivity extends SelectBaseActivity implements Vi
                     }
                 });
             } else if (checkableContactModel.getCheckType() == CheckType.NONE) {
-                View view = selectViewMap.get(friendShipInfo.getUser().getId());
+                View view = selectViewMap.get(friendShipInfo.getId());
                 if (view != null) {
                     llSelectContent.removeView(view);
                 }

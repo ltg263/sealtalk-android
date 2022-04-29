@@ -48,8 +48,8 @@ public class SearchFriendNetViewModel extends AndroidViewModel {
             @Override
             public Boolean apply(FriendShipInfo input) {
                 if(input != null){
-                    return FriendStatus.getStatus(input.getStatus()) == FriendStatus.IS_FRIEND
-                            || FriendStatus.getStatus(input.getStatus()) == FriendStatus.IN_BLACK_LIST;
+                    return FriendStatus.getStatus(input.getFriendshipStatus()) == FriendStatus.IS_FRIEND
+                            || FriendStatus.getStatus(input.getFriendshipStatus()) == FriendStatus.IN_BLACK_LIST;
                 } else {
                     return false;
                 }

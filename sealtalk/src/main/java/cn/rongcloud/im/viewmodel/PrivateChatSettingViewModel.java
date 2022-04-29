@@ -33,7 +33,7 @@ public class PrivateChatSettingViewModel extends AndroidViewModel {
     private String targetId;
     private Conversation.ConversationType conversationType;
     private SingleSourceLiveData<Resource<ScreenCaptureResult>> screenCaptureResult = new SingleSourceLiveData<>();
-    private SingleSourceLiveData<Resource<Void>> setScreenCaptureResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> setScreenCaptureResult = new SingleSourceLiveData<>();
     private FriendTask friendTask;
     private PrivacyTask privacyTask;
 
@@ -73,7 +73,7 @@ public class PrivateChatSettingViewModel extends AndroidViewModel {
         setScreenCaptureResult.setSource(privacyTask.setScreenCapture(conversationType.getValue(), targetId, status));
     }
 
-    public LiveData<Resource<Void>> getSetScreenCaptureResult() {
+    public LiveData<Resource<Boolean>> getSetScreenCaptureResult() {
         return setScreenCaptureResult;
     }
 
@@ -92,15 +92,13 @@ public class PrivateChatSettingViewModel extends AndroidViewModel {
                         FriendShipInfo info = new FriendShipInfo();
                         info.setDisplayName(data.getAlias());
                         info.setDisPlayNameSpelling(data.getAliasSpelling());
-                        FriendDetailInfo friendDetailInfo = new FriendDetailInfo();
-                        friendDetailInfo.setNickname(data.getName());
-                        friendDetailInfo.setId(data.getId());
-                        friendDetailInfo.setPhone(data.getPhoneNumber());
-                        friendDetailInfo.setNameSpelling(data.getNameSpelling());
-                        friendDetailInfo.setOrderSpelling(data.getOrderSpelling());
-                        friendDetailInfo.setPortraitUri(data.getPortraitUri());
-                        friendDetailInfo.setRegion(data.getRegion());
-                        info.setUser(friendDetailInfo);
+                        info.setNickname(data.getName());
+                        info.setId(data.getId());
+                        info.setPhone(data.getPhoneNumber());
+                        info.setNameSpelling(data.getNameSpelling());
+                        info.setOrderSpelling(data.getOrderSpelling());
+                        info.setPortraitUri(data.getPortraitUri());
+                        info.setRegion(data.getRegion());
                         friendShipInfoLiveData.postValue(new Resource<>(resource.status, info, resource.code));
                     }
                 }

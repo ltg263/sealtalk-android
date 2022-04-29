@@ -49,8 +49,8 @@ public class CheckableConversationViewHolder extends CheckableBaseViewHolder<Che
             ImageLoaderUtils.displayUserPortraitImage(entity.getPortraitUri(), protraitImageView);
         } else if (conversationContactModel.getBean() instanceof FriendShipInfo){
             FriendShipInfo info = (FriendShipInfo)conversationContactModel.getBean();
-            nameTextView.setText(TextUtils.isEmpty(info.getDisplayName()) ? info.getUser().getNickname() : info.getDisplayName());
-            ImageLoaderUtils.displayUserPortraitImage(info.getUser().getPortraitUri(), protraitImageView);
+            nameTextView.setText(TextUtils.isEmpty(info.getDisplayName()) ? info.getNickname() : info.getDisplayName());
+            ImageLoaderUtils.displayUserPortraitImage(info.getPortraitUri(), protraitImageView);
         }
         updateCheck(checkBox, conversationContactModel.getCheckType());
     }

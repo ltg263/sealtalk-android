@@ -46,8 +46,8 @@ public class CheckableContactViewHolder extends CheckableBaseViewHolder<Checkabl
         String portraitUrl = null;
         if (contactModel.getBean() instanceof FriendShipInfo) {
             FriendShipInfo friendShipInfo = (FriendShipInfo) contactModel.getBean();
-            FriendDetailInfo info = friendShipInfo.getUser();
-            String groupDisplayName = friendShipInfo.getGroupDisplayName();
+            FriendShipInfo info = friendShipInfo;
+            String groupDisplayName = friendShipInfo.getAccountName();
             String displayName = friendShipInfo.getDisplayName();
             if (!TextUtils.isEmpty(groupDisplayName)) {
                 name = groupDisplayName;

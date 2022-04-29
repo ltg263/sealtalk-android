@@ -95,7 +95,7 @@ public class MainContactsListFragment extends CommonListBaseFragment {
                 }
             }
             //待处理状态时数量加1
-            if (friendShipInfo != null && friendShipInfo.getStatus() == FriendStatus.RECEIVE_REQUEST.getStatusCode()) {
+            if (friendShipInfo != null && friendShipInfo.getFriendshipStatus() == FriendStatus.RECEIVE_REQUEST.getStatusCode()) {
                 dotNum++;
             }
         }
@@ -176,12 +176,12 @@ public class MainContactsListFragment extends CommonListBaseFragment {
      * @param friendShipInfo
      */
     private void handleFriendItemClick(FriendShipInfo friendShipInfo) {
-        if (friendShipInfo.getUser().getId().equals(IMManager.getInstance().getCurrentId())) {
-            String title = TextUtils.isEmpty(friendShipInfo.getDisplayName()) ? friendShipInfo.getUser().getNickname() : friendShipInfo.getDisplayName();
-            RouteUtils.routeToConversationActivity(this.getContext(), Conversation.ConversationType.PRIVATE , friendShipInfo.getUser().getId());
+        if (friendShipInfo.getId().equals(IMManager.getInstance().getCurrentId())) {
+            String title = TextUtils.isEmpty(friendShipInfo.getDisplayName()) ? friendShipInfo.getNickname() : friendShipInfo.getDisplayName();
+            RouteUtils.routeToConversationActivity(this.getContext(), Conversation.ConversationType.PRIVATE , friendShipInfo.getId());
         } else {
             Intent intent = new Intent(getContext(), UserDetailActivity.class);
-            intent.putExtra(STR_TARGET_ID, friendShipInfo.getUser().getId());
+            intent.putExtra(STR_TARGET_ID, friendShipInfo.getId());
             startActivity(intent);
         }
     }

@@ -85,11 +85,11 @@ public class GroupNoticeListActivity extends TitleBaseActivity {
                         }
                         isCanClickAgree = false;
                         //状态码1表示同意
-                        LiveData<Resource<Void>> setStatusResult = groupNoticeInfoViewModel.setGroupNoticeStatus(info.getGroupId(), info.getReceiverId(),
+                        LiveData<Resource<Boolean>> setStatusResult = groupNoticeInfoViewModel.setGroupNoticeStatus(info.getGroupId(), info.getReceiverId(),
                                 "1", info.getId());
-                        setStatusResult.observe(GroupNoticeListActivity.this, new Observer<Resource<Void>>() {
+                        setStatusResult.observe(GroupNoticeListActivity.this, new Observer<Resource<Boolean>>() {
                             @Override
-                            public void onChanged(Resource<Void> voidResource) {
+                            public void onChanged(Resource<Boolean> voidResource) {
                                 if (voidResource.status == Status.SUCCESS) {
                                     setStatusResult.removeObserver(this);
                                     isCanClickAgree = true;
@@ -100,7 +100,7 @@ public class GroupNoticeListActivity extends TitleBaseActivity {
                                         public void onChanged(GroupEntity groupEntity) {
                                             if (groupEntity != null) {
                                                 groupEntityLiveData.removeObserver(this);
-                                                if (groupEntity.getCertiStatus() == 0
+                                                if (groupEntity.isJoinVerify()
                                                         && info.getReceiverId().equals(RongIM.getInstance().getCurrentUserId())
                                                         && !info.getRequesterId().equals(groupEntity.getCreatorId())) {
                                                     showCertifiTipsDialog(info.getId());
@@ -133,11 +133,11 @@ public class GroupNoticeListActivity extends TitleBaseActivity {
                         }
                         isCanClickIngore = false;
                         //状态码0表示忽略
-                        LiveData<Resource<Void>> setStatusResult = groupNoticeInfoViewModel.setGroupNoticeStatus(info.getGroupId(), info.getReceiverId(),
+                        LiveData<Resource<Boolean>> setStatusResult = groupNoticeInfoViewModel.setGroupNoticeStatus(info.getGroupId(), info.getReceiverId(),
                                 "0", info.getId());
-                        setStatusResult.observe(GroupNoticeListActivity.this, new Observer<Resource<Void>>() {
+                        setStatusResult.observe(GroupNoticeListActivity.this, new Observer<Resource<Boolean>>() {
                             @Override
-                            public void onChanged(Resource<Void> voidResource) {
+                            public void onChanged(Resource<Boolean> voidResource) {
                                 if (voidResource.status == Status.SUCCESS) {
                                     setStatusResult.removeObserver(this);
                                     ToastUtils.showToast(getString(R.string.seal_group_notice_success));

@@ -1,7 +1,9 @@
 package cn.rongcloud.im.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.Observer;
@@ -130,8 +133,8 @@ public class MainActivity extends BaseActivity implements MorePopWindow.OnPopWin
         initView();
         initViewModel();
         clearBadgeStatu();
-    }
 
+    }
     //设置Activity对应的顶部状态栏的颜色
     public static void setWindowStatusBarColor(Activity activity, int colorResId) {
         try {
@@ -391,9 +394,9 @@ public class MainActivity extends BaseActivity implements MorePopWindow.OnPopWin
             @Override
             public void onChanged(FriendShipInfo friendShipInfo) {
                 Bundle bundle = new Bundle();
-                bundle.putString("title", TextUtils.isEmpty(friendShipInfo.getDisplayName()) ? friendShipInfo.getUser().getNickname() : friendShipInfo.getDisplayName());
+                bundle.putString("title", TextUtils.isEmpty(friendShipInfo.getDisplayName()) ? friendShipInfo.getNickname() : friendShipInfo.getDisplayName());
                 RouteUtils.routeToConversationActivity(MainActivity.this, Conversation.ConversationType.PRIVATE,
-                        friendShipInfo.getUser().getId(), bundle);
+                        friendShipInfo.getId(), bundle);
             }
         });
 

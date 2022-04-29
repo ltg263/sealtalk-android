@@ -82,22 +82,22 @@ public class GroupManagerActivity extends TitleBaseActivity implements View.OnCl
             @Override
             public void onChanged(GroupEntity groupEntity) {
                 if (groupEntity != null) {
-                    if (groupEntity.getIsMute() == 1) {
+                    if (groupEntity.isMuteStatus()) {
                         setCheckChangeWithoutListener(true, muteAllSiv, muteAllSivListener);
                     }
-                    if (groupEntity.getCertiStatus() == SWITCH_OPEN) {
+                    if (groupEntity.isJoinVerify()) {
                         setCheckChangeWithoutListener(true, addCertifiSiv, certifiSivListener);
                     }
-                    if (groupEntity.getMemberProtection() == 1) {
+                    if (groupEntity.isMemberProtect()) {
                         setCheckChangeWithoutListener(true, groupMemberProtectSiv, memberProtectSivListener);
                     }
                 }
             }
         });
 
-        groupManagementViewModel.getMuteAllResult().observe(this, new Observer<Resource<Void>>() {
+        groupManagementViewModel.getMuteAllResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> voidResource) {
+            public void onChanged(Resource<Boolean> voidResource) {
                 if (voidResource.status == Status.SUCCESS) {
                     ToastUtils.showToast(R.string.seal_group_manager_set_success);
                 } else if (voidResource.status == Status.ERROR) {
@@ -106,9 +106,9 @@ public class GroupManagerActivity extends TitleBaseActivity implements View.OnCl
             }
         });
 
-        groupManagementViewModel.getCerifiResult().observe(this, new Observer<Resource<Void>>() {
+        groupManagementViewModel.getCerifiResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> voidResource) {
+            public void onChanged(Resource<Boolean> voidResource) {
                 if (voidResource.status == Status.SUCCESS) {
                     ToastUtils.showToast(R.string.seal_group_manager_set_success);
                 } else if (voidResource.status == Status.ERROR) {
@@ -117,9 +117,9 @@ public class GroupManagerActivity extends TitleBaseActivity implements View.OnCl
             }
         });
 
-        groupManagementViewModel.getMemberProtectionResult().observe(this, new Observer<Resource<Void>>() {
+        groupManagementViewModel.getMemberProtectionResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> voidResource) {
+            public void onChanged(Resource<Boolean> voidResource) {
                 if (voidResource.status == Status.SUCCESS) {
                     ToastUtils.showToast(R.string.seal_group_manager_set_success);
                 } else if (voidResource.status == Status.ERROR) {

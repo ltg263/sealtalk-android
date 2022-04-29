@@ -9,6 +9,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -32,13 +34,31 @@ public class LoginFragment extends BaseFragment {
     private static final int REQUEST_CODE_SELECT_COUNTRY = 1000;
     private ClearWriteEditText phoneNumberEdit;
     private ClearWriteEditText verifyCodeEdit;
+    private ClearWriteEditText cet_password;
     private TextView countryNameTv;
     private TextView countryCodeTv;
+    private LinearLayout cet_login_password;
+    private RelativeLayout cet_login_verify;
 
     private LoginViewModel loginViewModel;
     private Button sendCodeBtn;
     private boolean isRequestVerifyCode = false; // 是否请求成功验证码
 
+    private boolean loginType_yzm = true;
+
+    public void setLoginType_yzm(boolean loginType_yzm) {
+        if(cet_login_password==null || cet_login_verify==null){
+            return;
+        }
+        this.loginType_yzm = loginType_yzm;
+        if(loginType_yzm){
+            cet_login_password.setVisibility(View.GONE);
+            cet_login_verify.setVisibility(View.VISIBLE);
+        }else{
+            cet_login_password.setVisibility(View.VISIBLE);
+            cet_login_verify.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -48,6 +68,9 @@ public class LoginFragment extends BaseFragment {
     @Override
     protected void onInitView(Bundle savedInstanceState, Intent intent) {
         phoneNumberEdit = findView(R.id.cet_login_phone);
+        cet_login_password = findView(R.id.cet_login_password);
+        cet_login_verify = findView(R.id.cet_login_verify);
+        cet_password = findView(R.id.cet_password);
         verifyCodeEdit = findView(R.id.cet_login_verify_code);
         countryNameTv = findView(R.id.tv_country_name);
         countryCodeTv = findView(R.id.tv_country_code);
@@ -126,7 +149,7 @@ public class LoginFragment extends BaseFragment {
                 if (countryInfo != null && !TextUtils.isEmpty(countryInfo.getCountryName())) {
                     countryNameTv.setText(countryInfo.getCountryName());
                 }
-                verifyCodeEdit.setText(userInfo.getPassword());
+                cet_password.setText(userInfo.getPassword());
             }
         });
 
@@ -184,27 +207,35 @@ public class LoginFragment extends BaseFragment {
                 String phoneStr = phoneNumberEdit.getText().toString().trim();
                 String codeStr = verifyCodeEdit.getText().toString().trim();
                 String countryCodeStr = countryCodeTv.getText().toString().trim();
+                String passwordStr = cet_password.getText().toString().trim();
 
                 if (TextUtils.isEmpty(phoneStr)) {
                     showToast(R.string.seal_login_toast_phone_number_is_null);
                     phoneNumberEdit.setShakeAnimation();
                     break;
                 }
-
-                if (TextUtils.isEmpty(codeStr)) {
+                if(loginType_yzm && TextUtils.isEmpty(codeStr)){
                     showToast(R.string.seal_login_toast_code_is_null);
                     verifyCodeEdit.setShakeAnimation();
                     return;
                 }
+                if(!loginType_yzm && TextUtils.isEmpty(passwordStr)){
+                    showToast(R.string.seal_login_toast_password_is_null);
+                    cet_password.setShakeAnimation();
+                    return;
+                }
+
 
                 if(TextUtils.isEmpty(countryCodeStr)){
                     countryCodeStr = "86";
                 }else if(countryCodeStr.startsWith("+")){
                     countryCodeStr = countryCodeStr.substring(1);
                 }
-
-//                login(countryCodeStr, phoneStr, passwordStr);
-                registerAndLogin(countryCodeStr, phoneStr, codeStr);
+                if(loginType_yzm){
+                    registerAndLogin(countryCodeStr, phoneStr, codeStr);
+                }else{
+                    login(countryCodeStr, phoneStr, passwordStr);
+                }
                 break;
             case R.id.ll_country_select:
                 // 跳转区域选择界面

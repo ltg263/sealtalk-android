@@ -85,9 +85,9 @@ public class GroupSetNewGroupOwnerActivity extends TitleBaseActivity {
             }
         });
         // 转移圈住结果
-        groupManagementViewModel.getTransferResult().observe(this, new Observer<Resource<Void>>() {
+        groupManagementViewModel.getTransferResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 //提示
                 if (resource.status == Status.SUCCESS) {
                     setResult(RESULT_OK);

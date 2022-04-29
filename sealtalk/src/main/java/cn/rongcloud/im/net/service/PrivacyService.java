@@ -23,7 +23,7 @@ public interface PrivacyService {
     LiveData<Result<ScreenCaptureResult>> getScreenCapture(@Body RequestBody body);
 
     @POST(SealTalkUrl.SET_SCREEN_CAPTURE)
-    LiveData<Result<Void>> setScreenCapture(@Body RequestBody body);
+    LiveData<Result<Boolean>> setScreenCapture(@Body RequestBody body);
 
     @POST(SealTalkUrl.SEND_SC_MSG)
     LiveData<Result<Void>> sendScreenShotMsg(@Body RequestBody body);

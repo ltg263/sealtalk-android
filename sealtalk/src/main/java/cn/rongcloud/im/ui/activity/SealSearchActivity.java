@@ -62,9 +62,9 @@ public class SealSearchActivity extends SealSearchBaseActivity implements TextWa
     public void onItemContactClick(FriendShipInfo friendShipInfo) {
         String displayName = friendShipInfo.getDisplayName();
         if(TextUtils.isEmpty(displayName)){
-            displayName = friendShipInfo.getUser().getNickname();
+            displayName = friendShipInfo.getNickname();
         }
-        RongIM.getInstance().startPrivateChat(this, friendShipInfo.getUser().getId(),
+        RongIM.getInstance().startPrivateChat(this, friendShipInfo.getId(),
                 displayName);
     }
 

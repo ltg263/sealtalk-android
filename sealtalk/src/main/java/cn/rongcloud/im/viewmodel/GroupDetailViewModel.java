@@ -48,20 +48,20 @@ public class GroupDetailViewModel extends AndroidViewModel {
     private GroupTask groupTask;
     private PrivacyTask privacyTask;
 
-    private SingleSourceLiveData<Resource<Void>> uploadPortraitResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> uploadPortraitResult = new SingleSourceLiveData<>();
     private SingleSourceMapLiveData<Resource<List<AddMemberResult>>, Resource<List<AddMemberResult>>> addGroupMemberResult;
-    private SingleSourceMapLiveData<Resource<Void>, Resource<Void>> removeGroupMemberResult;
-    private SingleSourceLiveData<Resource<Void>> renameGroupNameResult = new SingleSourceLiveData<>();
-    private SingleSourceLiveData<Resource<Void>> exitGroupResult = new SingleSourceLiveData<>();
+    private SingleSourceMapLiveData<Resource<Boolean>, Resource<Boolean>> removeGroupMemberResult;
+    private SingleSourceLiveData<Resource<Boolean>> renameGroupNameResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> exitGroupResult = new SingleSourceLiveData<>();
     private MediatorLiveData<GroupMember> myselfInfo = new MediatorLiveData<>();
 
-    private SingleSourceLiveData<Resource<Void>> saveToContactResult = new SingleSourceLiveData<>();
-    private SingleSourceLiveData<Resource<Void>> removeFromContactResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> saveToContactResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> removeFromContactResult = new SingleSourceLiveData<>();
 
     private SingleSourceLiveData<Resource<ScreenCaptureResult>> screenCaptureResult = new SingleSourceLiveData<>();
-    private SingleSourceLiveData<Resource<Void>> setScreenCaptureResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> setScreenCaptureResult = new SingleSourceLiveData<>();
 
-    private SingleSourceLiveData<Resource<Void>> setCleanTimeResult = new SingleSourceLiveData<>();
+    private SingleSourceLiveData<Resource<Boolean>> setCleanTimeResult = new SingleSourceLiveData<>();
     private IMManager imManager;
 
     public GroupDetailViewModel(@NonNull Application application) {
@@ -188,7 +188,7 @@ public class GroupDetailViewModel extends AndroidViewModel {
      *
      * @return
      */
-    public LiveData<Resource<Void>> getUploadPortraitResult() {
+    public LiveData<Resource<Boolean>> getUploadPortraitResult() {
         return uploadPortraitResult;
     }
 
@@ -237,7 +237,7 @@ public class GroupDetailViewModel extends AndroidViewModel {
      *
      * @return
      */
-    public LiveData<Resource<Void>> getRemoveGroupMemberResult() {
+    public LiveData<Resource<Boolean>> getRemoveGroupMemberResult() {
         return removeGroupMemberResult;
     }
 
@@ -255,7 +255,7 @@ public class GroupDetailViewModel extends AndroidViewModel {
      *
      * @return
      */
-    public LiveData<Resource<Void>> getRenameGroupResult() {
+    public LiveData<Resource<Boolean>> getRenameGroupResult() {
         return renameGroupNameResult;
     }
 
@@ -278,7 +278,7 @@ public class GroupDetailViewModel extends AndroidViewModel {
      *
      * @return
      */
-    public LiveData<Resource<Void>> getExitGroupResult() {
+    public LiveData<Resource<Boolean>> getExitGroupResult() {
         return exitGroupResult;
     }
 
@@ -296,7 +296,7 @@ public class GroupDetailViewModel extends AndroidViewModel {
      */
     public void saveToContact() {
         Resource<GroupEntity> value = groupInfoLiveData.getValue();
-        if (value != null && value.data != null && value.data.getIsInContact() == 1) return;
+        if (value != null && value.data != null && value.data.isInContact()) return;
         saveToContactResult.setSource(groupTask.saveGroupToContact(groupId));
     }
 
@@ -305,7 +305,7 @@ public class GroupDetailViewModel extends AndroidViewModel {
      *
      * @return
      */
-    public LiveData<Resource<Void>> getSaveToContact() {
+    public LiveData<Resource<Boolean>> getSaveToContact() {
         return saveToContactResult;
     }
 
@@ -314,7 +314,7 @@ public class GroupDetailViewModel extends AndroidViewModel {
      */
     public void removeFromContact() {
         Resource<GroupEntity> value = groupInfoLiveData.getValue();
-        if (value != null && value.data != null && value.data.getIsInContact() == 0) return;
+        if (value != null && value.data != null && !value.data.isInContact()) return;
 
         removeFromContactResult.setSource(groupTask.removeGroupFromContact(groupId));
     }
@@ -324,7 +324,7 @@ public class GroupDetailViewModel extends AndroidViewModel {
      *
      * @return
      */
-    public LiveData<Resource<Void>> getRemoveFromContactResult() {
+    public LiveData<Resource<Boolean>> getRemoveFromContactResult() {
         return removeFromContactResult;
     }
 
@@ -364,7 +364,7 @@ public class GroupDetailViewModel extends AndroidViewModel {
      *
      * @return
      */
-    public LiveData<Resource<Void>> getRegularClearResult() {
+    public LiveData<Resource<Boolean>> getRegularClearResult() {
         return setCleanTimeResult;
     }
 
@@ -398,7 +398,7 @@ public class GroupDetailViewModel extends AndroidViewModel {
         setScreenCaptureResult.setSource(privacyTask.setScreenCapture(conversationType.getValue(), groupId, status));
     }
 
-    public LiveData<Resource<Void>> getSetScreenCaptureResult(){
+    public LiveData<Resource<Boolean>> getSetScreenCaptureResult(){
         return  setScreenCaptureResult;
     }
 

@@ -85,34 +85,34 @@ public class FriendTask {
                 for (FriendShipInfo friendShipInfo : list) {
                     userInfo = new UserInfo();
                     friendInfo = new FriendInfo();
-                    userInfo.setId(friendShipInfo.getUser().getId());
-                    userInfo.setName(friendShipInfo.getUser().getNickname());
+                    userInfo.setId(friendShipInfo.getId());
+                    userInfo.setName(friendShipInfo.getNickname());
 
-                    String portraitUri = friendShipInfo.getUser().getPortraitUri();
+                    String portraitUri = friendShipInfo.getPortraitUri();
                     // 若头像为空则生成默认头像
                     if (TextUtils.isEmpty(portraitUri)) {
-                        portraitUri = RongGenerate.generateDefaultAvatar(context, friendShipInfo.getUser().getId(), friendShipInfo.getUser().getNickname());
+                        portraitUri = RongGenerate.generateDefaultAvatar(context, friendShipInfo.getId(), friendShipInfo.getNickname());
                     }
                     userInfo.setPortraitUri(portraitUri);
                     userInfo.setAlias(friendShipInfo.getDisplayName());
-                    userInfo.setFriendStatus(friendShipInfo.getStatus());
-                    userInfo.setPhoneNumber(friendShipInfo.getUser().getPhone());
-                    userInfo.setRegion(friendShipInfo.getUser().getRegion());
+                    userInfo.setFriendStatus(friendShipInfo.getFriendshipStatus());
+                    userInfo.setPhoneNumber(friendShipInfo.getPhone());
+                    userInfo.setRegion(friendShipInfo.getRegion());
                     userInfo.setAliasSpelling(SearchUtils.fullSearchableString(friendShipInfo.getDisplayName()));
                     userInfo.setAliasSpellingInitial(SearchUtils.initialSearchableString(friendShipInfo.getDisplayName()));
 
-                    userInfo.setNameSpelling(SearchUtils.fullSearchableString(friendShipInfo.getUser().getNickname()));
-                    userInfo.setNameSpellingInitial(SearchUtils.initialSearchableString(friendShipInfo.getUser().getNickname()));
+                    userInfo.setNameSpelling(SearchUtils.fullSearchableString(friendShipInfo.getNickname()));
+                    userInfo.setNameSpellingInitial(SearchUtils.initialSearchableString(friendShipInfo.getNickname()));
 
                     if (!TextUtils.isEmpty(friendShipInfo.getDisplayName())) {
                         userInfo.setOrderSpelling(CharacterParser.getInstance().getSpelling(friendShipInfo.getDisplayName()));
                     } else {
-                        userInfo.setOrderSpelling(CharacterParser.getInstance().getSpelling(friendShipInfo.getUser().getNickname()));
+                        userInfo.setOrderSpelling(CharacterParser.getInstance().getSpelling(friendShipInfo.getNickname()));
                     }
 
-                    friendInfo.setId(friendShipInfo.getUser().getId());
+                    friendInfo.setId(friendShipInfo.getId());
                     friendInfo.setMessage(friendShipInfo.getMessage());
-                    friendInfo.setUpdatedAt(friendShipInfo.getUpdatedAt());
+                    friendInfo.setUpdatedAt(friendShipInfo.getModifyTime1());
                     userInfoList.add(userInfo);
                     friendInfoList.add(friendInfo);
 
@@ -176,31 +176,31 @@ public class FriendTask {
 
                 UserInfo userInfo = new UserInfo();
                 FriendInfo friendInfo = new FriendInfo();
-                userInfo.setId(friendShipInfo.getUser().getId());
-                userInfo.setName(friendShipInfo.getUser().getNickname());
-                String portraitUri = friendShipInfo.getUser().getPortraitUri();
+                userInfo.setId(friendShipInfo.getId());
+                userInfo.setName(friendShipInfo.getNickname());
+                String portraitUri = friendShipInfo.getPortraitUri();
                 // 若头像为空则生成默认头像
                 if (TextUtils.isEmpty(portraitUri)) {
-                    portraitUri = RongGenerate.generateDefaultAvatar(context, friendShipInfo.getUser().getId(), friendShipInfo.getUser().getNickname());
+                    portraitUri = RongGenerate.generateDefaultAvatar(context, friendShipInfo.getId(), friendShipInfo.getNickname());
                 }
                 userInfo.setPortraitUri(portraitUri);
                 userInfo.setAlias(friendShipInfo.getDisplayName());
                 userInfo.setFriendStatus(FriendStatus.IS_FRIEND.getStatusCode());
-                userInfo.setPhoneNumber(friendShipInfo.getUser().getPhone());
-                userInfo.setRegion(friendShipInfo.getUser().getRegion());
+                userInfo.setPhoneNumber(friendShipInfo.getPhone());
+                userInfo.setRegion(friendShipInfo.getRegion());
                 userInfo.setAliasSpelling(SearchUtils.fullSearchableString(friendShipInfo.getDisplayName()));
                 userInfo.setAliasSpellingInitial(SearchUtils.initialSearchableString(friendShipInfo.getDisplayName()));
-                userInfo.setNameSpelling(SearchUtils.fullSearchableString(friendShipInfo.getUser().getNickname()));
-                userInfo.setNameSpellingInitial(SearchUtils.initialSearchableString(friendShipInfo.getUser().getNickname()));
+                userInfo.setNameSpelling(SearchUtils.fullSearchableString(friendShipInfo.getNickname()));
+                userInfo.setNameSpellingInitial(SearchUtils.initialSearchableString(friendShipInfo.getNickname()));
                 if (!TextUtils.isEmpty(friendShipInfo.getDisplayName())) {
                     userInfo.setOrderSpelling(CharacterParser.getInstance().getSpelling(friendShipInfo.getDisplayName()));
                 } else {
-                    userInfo.setOrderSpelling(CharacterParser.getInstance().getSpelling(friendShipInfo.getUser().getNickname()));
+                    userInfo.setOrderSpelling(CharacterParser.getInstance().getSpelling(friendShipInfo.getNickname()));
                 }
 
-                friendInfo.setId(friendShipInfo.getUser().getId());
+                friendInfo.setId(friendShipInfo.getId());
                 friendInfo.setMessage(friendShipInfo.getMessage());
-                friendInfo.setUpdatedAt(friendShipInfo.getUpdatedAt() == null ? friendShipInfo.getUser().getUpdatedAt() : friendShipInfo.getUpdatedAt());
+                friendInfo.setUpdatedAt(friendShipInfo.getModifyTime1() == null ? friendShipInfo.getModifyTime1() : friendShipInfo.getModifyTime1());
 
                 userDao.insertUser(userInfo);
                 friendDao.insertFriendShip(friendInfo);
@@ -299,10 +299,10 @@ public class FriendTask {
      * @param alias
      * @return
      */
-    public LiveData<Resource<Void>> setFriendAliasName(String friendId, String alias) {
-        return new NetworkOnlyResource<Void, Result>() {
+    public LiveData<Resource<Boolean>> setFriendAliasName(String friendId, String alias) {
+        return new NetworkOnlyResource<Boolean, Result>() {
             @Override
-            protected void saveCallResult(@NonNull Void item) {
+            protected void saveCallResult(@NonNull Boolean item) {
                 UserDao userDao = dbManager.getUserDao();
                 if (userDao != null) {
                     String aliasSpelling = CharacterParser.getInstance().getSpelling(alias);
@@ -368,10 +368,10 @@ public class FriendTask {
      * @param friendId
      * @return
      */
-    public LiveData<Resource<Void>> deleteFriend(String friendId) {
-        return new NetworkOnlyResource<Void, Result>() {
+    public LiveData<Resource<Boolean>> deleteFriend(String friendId) {
+        return new NetworkOnlyResource<Boolean, Result>() {
             @Override
-            protected void saveCallResult(@NonNull Void item) {
+            protected void saveCallResult(@NonNull Boolean item) {
                 FriendDao friendDao = dbManager.getFriendDao();
                 if (friendDao != null) {
                     friendDao.deleteFriend(friendId);
@@ -452,7 +452,7 @@ public class FriendTask {
             protected LiveData<Result<SearchFriendInfo>> createCall() {
                 HashMap<String, String> queryMap = new HashMap<>();
                 if (!TextUtils.isEmpty(stAccount)) {
-                    queryMap.put("st_account", stAccount);
+                    queryMap.put("account", stAccount);
                 } else {
                     queryMap.put("region", region);
                     queryMap.put("phone", phone);
@@ -644,9 +644,7 @@ public class FriendTask {
             @NonNull
             @Override
             protected LiveData<Result<FriendDescription>> createCall() {
-                HashMap<String, Object> bodyMap = new HashMap<>();
-                bodyMap.put("friendId", friendId);
-                return friendService.getFriendDescription(RetrofitUtil.createJsonRequest(bodyMap));
+                return friendService.getFriendDescription(friendId);
             }
         }.asLiveData();
     }
@@ -673,11 +671,11 @@ public class FriendTask {
             return setDesAndUploadImage(friendId, displayName, region
                     , phone, description, Uri.parse(uriStr));
         }
-        return new NetworkOnlyResource<Void, Result<Void>>() {
+        return new NetworkOnlyResource<Void, Result<Boolean>>() {
 
             @NonNull
             @Override
-            protected LiveData<Result<Void>> createCall() {
+            protected LiveData<Result<Boolean>> createCall() {
                 HashMap<String, Object> bodyMap = new HashMap<>();
                 bodyMap.put("friendId", friendId);
                 if (displayName != null) {

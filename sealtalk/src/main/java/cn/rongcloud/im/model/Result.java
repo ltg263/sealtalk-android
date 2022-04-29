@@ -2,6 +2,7 @@ package cn.rongcloud.im.model;
 
 import cn.rongcloud.im.common.ErrorCode;
 import cn.rongcloud.im.common.NetConstant;
+import cn.rongcloud.im.utils.ToastUtils;
 
 /**
  * 网络请求结果基础类
@@ -10,6 +11,15 @@ import cn.rongcloud.im.common.NetConstant;
 public class Result<T> {
     public int code;
     public T data;
+    public String message;
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 
     public Result(){
     }

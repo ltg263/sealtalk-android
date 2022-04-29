@@ -153,7 +153,7 @@ public class ForwardSearchViewModel extends AndroidViewModel {
         SearchFriendModel searchFriendModel = null;
         for (FriendShipInfo info : input) {
             String aliseName = info.getDisplayName();
-            String nickName = info.getUser().getNickname();
+            String nickName = info.getNickname();
             int displayIndex = -1;
             int displayIndexEnd = -1;
             int nickNameIndex = -1;
@@ -234,7 +234,7 @@ public class ForwardSearchViewModel extends AndroidViewModel {
         SearchFriendModel searchFriendModel = new SearchFriendModel(info, R.layout.serach_fragment_forward_recycler_friend_item,
                 nickNameIndex, nickNameIndexEnd,
                 displayIndex, displayIndexEnd);
-        searchFriendModel.setId(info.getUser().getId());
+        searchFriendModel.setId(info.getId());
         if (isSelect) {
             searchFriendModel.setCheckType(CheckType.UNCHECKED);
         }

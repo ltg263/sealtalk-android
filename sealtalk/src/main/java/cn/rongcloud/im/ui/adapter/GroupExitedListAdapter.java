@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.rongcloud.im.R;
+import cn.rongcloud.im.db.model.FriendShipInfo;
 import cn.rongcloud.im.db.model.GroupExitedMemberInfo;
 import cn.rongcloud.im.ui.widget.SelectableRoundedImageView;
 import cn.rongcloud.im.utils.ImageLoaderUtils;
@@ -69,7 +70,8 @@ public class GroupExitedListAdapter extends BaseAdapter {
             ImageLoaderUtils.displayGroupPortraitImage(info.getQuitPortraitUri(), holder.ivPortrait);
         }
         if (!TextUtils.isEmpty(info.getQuitTime())) {
-            holder.tvTime.setText(RongDateUtils.getConversationFormatDate(Long.valueOf(info.getQuitTime()), convertView.getContext()));
+            long time = FriendShipInfo.getMsToTime(info.getQuitTime(),"yyyy-MM-dd HH:mm:ss");
+            holder.tvTime.setText(RongDateUtils.getConversationFormatDate(time, convertView.getContext()));
         }
         switch (info.getQuitReason()) {
             case QUIT_BY_GROUP_OWNER:

@@ -26,7 +26,6 @@ import cn.rongcloud.im.db.model.GroupEntity;
 import cn.rongcloud.im.db.model.UserInfo;
 import cn.rongcloud.im.file.FileManager;
 import cn.rongcloud.im.im.IMManager;
-import cn.rongcloud.im.model.BlackListUser;
 import cn.rongcloud.im.model.ContactGroupResult;
 import cn.rongcloud.im.model.GetPokeResult;
 import cn.rongcloud.im.model.LoginResult;
@@ -93,7 +92,7 @@ public class UserTask {
                 HashMap<String, Object> paramsMap = new HashMap<>();
                 paramsMap.put("region", region);
                 paramsMap.put("phone", phone);
-                paramsMap.put("password", password);
+                paramsMap.put("code", password);
                 RequestBody body = RetrofitUtil.createJsonRequest(paramsMap);
                 return userService.loginLiveData(body);
             }
@@ -218,7 +217,7 @@ public class UserTask {
 
 
     /**
-     * 发送验证码
+     * 登录发送验证码
      *
      * @param region
      * @param phoneNumber
@@ -235,6 +234,43 @@ public class UserTask {
                 paramsMap.put("phone", phoneNumber);
                 RequestBody body = RetrofitUtil.createJsonRequest(paramsMap);
                 return userService.sendCode(body);
+            }
+        }.asLiveData();
+    }
+
+    /**
+     * 用户注销发送验证码
+     * @return
+     */
+    public LiveData<Resource<String>> sendCodeAccountClose() {
+        return new NetworkOnlyResource<String, Result<String>>() {
+
+            @NonNull
+            @Override
+            protected LiveData<Result<String>> createCall() {
+                return userService.sendCodeAccountClose();
+            }
+        }.asLiveData();
+    }
+
+    /**
+     * 重置密码发送验证码
+     *
+     * @param region
+     * @param phoneNumber
+     * @return
+     */
+    public LiveData<Resource<String>> sendCodeResetPassword(String region, String phoneNumber) {
+        return new NetworkOnlyResource<String, Result<String>>() {
+
+            @NonNull
+            @Override
+            protected LiveData<Result<String>> createCall() {
+                HashMap<String, Object> paramsMap = new HashMap<>();
+                paramsMap.put("region", region);
+                paramsMap.put("phone", phoneNumber);
+                RequestBody body = RetrofitUtil.createJsonRequest(paramsMap);
+                return userService.sendCodeResetPassword(body);
             }
         }.asLiveData();
     }
@@ -325,12 +361,12 @@ public class UserTask {
      * @param phoneNumber
      * @return
      */
-    public LiveData<Resource<Boolean>> checkPhoneAvailable(String phoneCode, String phoneNumber) {
-        return new NetworkOnlyResource<Boolean, Result<Boolean>>() {
+    public LiveData<Resource<Object>> checkPhoneAvailable(String phoneCode, String phoneNumber) {
+        return new NetworkOnlyResource<Object, Result>() {
 
             @NonNull
             @Override
-            protected LiveData<Result<Boolean>> createCall() {
+            protected LiveData<Result> createCall() {
                 HashMap<String, Object> paramsMap = new HashMap<>();
                 paramsMap.put("region", phoneCode);
                 paramsMap.put("phone", phoneNumber);
@@ -343,66 +379,36 @@ public class UserTask {
     /**
      * 重置密码
      *
-     * @param countryCode
-     * @param phoneNumber
+     * @param sessionId
      * @param shortMsgCode
      * @param password
      * @return
      */
-    public LiveData<Resource<String>> resetPassword(String countryCode, String phoneNumber, String shortMsgCode, String password) {
-        MediatorLiveData<Resource<String>> result = new MediatorLiveData<>();
+    public LiveData<Resource<Boolean>> resetPassword(String sessionId, String shortMsgCode, String password) {
+        MediatorLiveData<Resource<Boolean>> result = new MediatorLiveData<>();
         result.setValue(Resource.loading(null));
-        LiveData<Resource<VerifyResult>> verify = new NetworkOnlyResource<VerifyResult, Result<VerifyResult>>() {
+        LiveData<Resource<Boolean>> verify = new NetworkOnlyResource<Boolean, Result>() {
             @NonNull
             @Override
-            protected LiveData<Result<VerifyResult>> createCall() {
+            protected LiveData<Result> createCall() {
                 HashMap<String, Object> paramsMap = new HashMap<>();
-                paramsMap.put("region", countryCode);
-                paramsMap.put("phone", phoneNumber);
+                paramsMap.put("sessionId", sessionId);
+                paramsMap.put("password", password);
                 paramsMap.put("code", shortMsgCode);
                 RequestBody body = RetrofitUtil.createJsonRequest(paramsMap);
-                return userService.verifyCode(body);
+                return userService.resetPassword(body);
             }
         }.asLiveData();
-
-        result.addSource(verify, verifyResult -> {
-            if (verifyResult != null) {
-                if (verifyResult.status == Status.SUCCESS) {
-                    String verifyToken = verifyResult.data.verification_token;
-                    LiveData<Resource<String>> resetPassword = new NetworkOnlyResource<String, Result<String>>() {
-
-                        @NonNull
-                        @Override
-                        protected LiveData<Result<String>> createCall() {
-                            HashMap<String, Object> paramsMap = new HashMap<>();
-                            paramsMap.put("password", password);
-                            paramsMap.put("verification_token", verifyToken);
-                            RequestBody body = RetrofitUtil.createJsonRequest(paramsMap);
-                            return userService.resetPassword(body);
-                        }
-                    }.asLiveData();
-
-                    result.addSource(resetPassword, resetPasswordResult -> {
-                        if (resetPasswordResult.status == Status.SUCCESS) {
-                            if (resetPasswordResult != null) {
-                                result.postValue(resetPasswordResult);
-                            } else {
-                                result.setValue(Resource.error(ErrorCode.API_ERR_OTHER.getCode(), null));
-                            }
-                        } else if (resetPasswordResult.status == Status.ERROR) {
-                            result.setValue(Resource.error(resetPasswordResult.code, null));
-                        }
-                    });
-
-                } else if (verifyResult.status == Status.ERROR) {
-                    result.setValue(Resource.error(verifyResult.code, null));
+        result.addSource(verify, resetPasswordResult -> {
+            if (resetPasswordResult.status == Status.SUCCESS) {
+                if (resetPasswordResult != null) {
+                    result.postValue(resetPasswordResult);
                 } else {
-                    result.setValue(Resource.loading(null));
+                    result.setValue(Resource.error(ErrorCode.API_ERR_OTHER.getCode(), null));
                 }
-            } else if (verifyResult.status == Status.ERROR) {
-                result.setValue(Resource.error(verifyResult.code, null));
+            } else if (resetPasswordResult.status == Status.ERROR) {
+                result.setValue(Resource.error(resetPasswordResult.code, null));
             }
-
         });
         return result;
     }
@@ -449,7 +455,7 @@ public class UserTask {
             @Override
             protected LiveData<Result> createCall() {
                 HashMap<String, Object> paramMap = new HashMap<>();
-                paramMap.put("stAccount", stAccount);
+                paramMap.put("accountName", stAccount);
                 RequestBody body = RetrofitUtil.createJsonRequest(paramMap);
                 return userService.setStAccount(body);
             }
@@ -561,6 +567,28 @@ public class UserTask {
                 saveAndSyncPortrait(IMManager.getInstance().getCurrentId(), portraitUrl);
             }
 
+        }.asLiveData();
+    }
+
+    /**
+     * 注销账号
+     * @return
+     */
+    public LiveData<Resource<Boolean>> userClose(String sessionId,String code) {
+        return new NetworkOnlyResource<Boolean, Result>() {
+            @Override
+            protected void saveCallResult(@NonNull Boolean item) {
+                super.saveCallResult(item);
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<Result> createCall() {
+                HashMap<String, Object> bodyMap = new HashMap<>();
+                bodyMap.put("sessionId", sessionId);
+                bodyMap.put("code", code);
+                return userService.userClose(RetrofitUtil.createJsonRequest(bodyMap));
+            }
         }.asLiveData();
     }
 
@@ -695,12 +723,12 @@ public class UserTask {
                 UserDao userDao = dbManager.getUserDao();
 
                 for (FriendBlackInfo blackInfo : result) {
-                    BlackListUser blackUser = blackInfo.getUser();
+                    FriendBlackInfo blackUser = blackInfo;
                     if (blackUser == null) continue;
 
                     // 将黑名单中的用户信息更新用户表
                     user = new UserInfo();
-                    user.setId(blackUser.getId());
+                    user.setId(blackUser.getFriendId());
                     String nickname = blackUser.getNickname();
                     String nameSpelling = SearchUtils.fullSearchableString(nickname);
                     user.setNameSpelling(nameSpelling);
@@ -709,7 +737,7 @@ public class UserTask {
 
                     // 当没有头像时生成默认头像
                     if (TextUtils.isEmpty(portraitUri)) {
-                        portraitUri = RongGenerate.generateDefaultAvatar(context, blackUser.getId(), nickname);
+                        portraitUri = RongGenerate.generateDefaultAvatar(context, blackUser.getFriendId(), nickname);
                         user.setPortraitUri(portraitUri);
                     } else {
                         user.setPortraitUri(portraitUri);
@@ -723,7 +751,7 @@ public class UserTask {
 
                     // 添加到黑名单
                     addBlack = new BlackListEntity();
-                    addBlack.setId(blackUser.getId());
+                    addBlack.setId(blackUser.getFriendId());
                     blackList.add(addBlack);
                 }
 
@@ -767,7 +795,7 @@ public class UserTask {
                 FriendDao friendDao = dbManager.getFriendDao();
                 if (friendDao != null) {
                     BlackListEntity blackListEntity = new BlackListEntity();
-                    blackListEntity.setId(userId);
+                    blackListEntity.setId("cXA2vcS4a");
                     friendDao.addToBlackList(blackListEntity);
                 }
 
@@ -778,7 +806,7 @@ public class UserTask {
             @Override
             protected LiveData<Result> createCall() {
                 HashMap<String, Object> bodyMap = new HashMap<>();
-                bodyMap.put("friendId", userId);
+                bodyMap.put("userId", userId);
                 return userService.addToBlackList(RetrofitUtil.createJsonRequest(bodyMap));
             }
         }.asLiveData();
@@ -803,7 +831,7 @@ public class UserTask {
             @Override
             protected LiveData<Result> createCall() {
                 HashMap<String, Object> bodyMap = new HashMap<>();
-                bodyMap.put("friendId", userId);
+                bodyMap.put("userId", userId);
                 return userService.removeFromBlackList(RetrofitUtil.createJsonRequest(bodyMap));
             }
         }.asLiveData();
@@ -822,7 +850,6 @@ public class UserTask {
                 if (groupDao == null) return;
                 // 先清除所有群组在通讯录状态
                 groupDao.clearAllGroupContact();
-
                 ContactGroupResult result = item.getResult();
                 if (result == null) return;
                 List<GroupEntity> list = result.getList();
@@ -838,7 +865,7 @@ public class UserTask {
                         groupEntity.setNameSpellingInitial(SearchUtils.initialSearchableString(groupEntity.getName()));
                         groupEntity.setOrderSpelling(CharacterParser.getInstance().getSpelling(groupEntity.getName()));
                         // 设置在该群是在通讯录中
-                        groupEntity.setIsInContact(1);
+                        groupEntity.setInContact(true);
                     }
 
                     groupDao.insertGroup(list);

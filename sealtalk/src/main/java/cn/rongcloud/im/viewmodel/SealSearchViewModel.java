@@ -312,7 +312,7 @@ public class SealSearchViewModel extends AndroidViewModel {
         output.add(new SearchTitleModel(R.string.seal_ac_search_friend, R.layout.search_fragment_recycler_title_layout, SearchModel.SHOW_PRIORITY_FRIEND));
         for (FriendShipInfo info : input) {
             String aliseName = info.getDisplayName();
-            String nickName = info.getUser().getNickname();
+            String nickName = info.getNickname();
             int displayIndex = -1;
             int displayIndexEnd = -1;
             int nickNameIndex = -1;
@@ -361,8 +361,8 @@ public class SealSearchViewModel extends AndroidViewModel {
                 } else {
                     FriendShipInfo info = friendTask.getFriendShipInfoFromDBSync(result.getConversation().getTargetId());
                     if (info != null) {
-                        name = info.getDisplayName() == null ? info.getDisplayName() : info.getUser().getNickname();
-                        portraitUrl = info.getUser().getPortraitUri();
+                        name = info.getDisplayName() == null ? info.getDisplayName() : info.getNickname();
+                        portraitUrl = info.getPortraitUri();
                     }
                 }
             } else if (result.getConversation().getConversationType() == Conversation.ConversationType.GROUP) {

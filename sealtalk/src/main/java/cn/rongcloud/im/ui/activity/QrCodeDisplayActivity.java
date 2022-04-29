@@ -200,7 +200,7 @@ public class QrCodeDisplayActivity extends TitleBaseActivity implements View.OnC
         mainInfoTv.setText(groupEntity.getName());
         subInfoTv.setText(getString(R.string.common_member_count, groupEntity.getMemberCount()));
         // 0表示已开启群认证
-        if (groupEntity.getCertiStatus() == 0) {
+        if (groupEntity.isJoinVerify()) {
             qrCodeIv.setVisibility(View.INVISIBLE);
             qrCodeDescribeTv.setVisibility(View.INVISIBLE);
             qrNoCodeDescribeTv.setVisibility(View.VISIBLE);

@@ -69,9 +69,9 @@ public class NewFriendListAdapter extends BaseAdapter {
         }
 
         final FriendShipInfo info = (FriendShipInfo) datas.get(position);
-        FriendDetailInfo user = info.getUser();
-        if (info.getUser() != null) {
-            holder.nameTv.setText(info.getUser().getNickname());
+        FriendShipInfo user = info;
+        if (info != null) {
+            holder.nameTv.setText(info.getNickname());
             ImageLoaderUtils.displayUserPortraitImage(user.getPortraitUri(), holder.headIv);
         }
 
@@ -95,7 +95,7 @@ public class NewFriendListAdapter extends BaseAdapter {
             }
         });
 
-        switch (FriendStatus.getStatus(info.getStatus())) {
+        switch (FriendStatus.getStatus(info.getFriendshipStatus())) {
             case RECEIVE_REQUEST: //收到了好友邀请
                 holder.stateTv.setText(R.string.seal_new_friend_agree);
                 holder.stateTv.setBackgroundDrawable(parent.getContext().getResources().getDrawable(R.drawable.seal_new_friend_add_friend_selector));

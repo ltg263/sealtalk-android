@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,7 @@ import cn.rongcloud.im.model.GroupMember;
 import cn.rongcloud.im.model.GroupNoticeResult;
 import cn.rongcloud.im.model.RegularClearStatusResult;
 import cn.rongcloud.im.model.Resource;
+import cn.rongcloud.im.model.Result;
 import cn.rongcloud.im.model.ScreenCaptureResult;
 import cn.rongcloud.im.model.Status;
 import cn.rongcloud.im.model.qrcode.QrCodeDisplayType;
@@ -271,6 +273,8 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
             @Override
             public void onChanged(GroupMember member) {
                 // 更具身份去控制对应的操作
+                Log.w("--->>>","member.getMemberRole():"+member.getMemberRole() );
+                Log.w("--->>>","GroupMember.Role.GROUP_OWNER:"+GroupMember.Role.GROUP_OWNER );
                 if (member.getMemberRole() == GroupMember.Role.GROUP_OWNER) {
                     quitGroupBtn.setText(R.string.profile_dismiss_group);
                     // 根据是否是群组判断是否可以选择删除成员
@@ -411,9 +415,9 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
         });
 
         // 移除群组成员结果
-        groupDetailViewModel.getRemoveGroupMemberResult().observe(this, new Observer<Resource<Void>>() {
+        groupDetailViewModel.getRemoveGroupMemberResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 if (resource.status == Status.ERROR) {
                     ToastUtils.showToast(resource.message);
                 }
@@ -421,9 +425,9 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
         });
 
         // 修改群组名称结果
-        groupDetailViewModel.getRenameGroupResult().observe(this, new Observer<Resource<Void>>() {
+        groupDetailViewModel.getRenameGroupResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 if (resource.status == Status.ERROR) {
                     ToastUtils.showToast(resource.message);
                 } else if (resource.status == Status.SUCCESS) {
@@ -434,9 +438,9 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
         });
 
         // 退出群组结果
-        groupDetailViewModel.getExitGroupResult().observe(this, new Observer<Resource<Void>>() {
+        groupDetailViewModel.getExitGroupResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 if (resource.status == Status.SUCCESS) {
                     backToMain();
                 } else if (resource.status == Status.ERROR) {
@@ -446,9 +450,9 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
         });
 
         // 保存到通讯录结果
-        groupDetailViewModel.getSaveToContact().observe(this, new Observer<Resource<Void>>() {
+        groupDetailViewModel.getSaveToContact().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 if (resource.status == Status.SUCCESS) {
                     ToastUtils.showToast(R.string.common_add_successful);
                 } else if (resource.status == Status.ERROR) {
@@ -458,9 +462,9 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
         });
 
         // 从通讯录中移除的结果
-        groupDetailViewModel.getRemoveFromContactResult().observe(this, new Observer<Resource<Void>>() {
+        groupDetailViewModel.getRemoveFromContactResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 if (resource.status == Status.SUCCESS) {
                     ToastUtils.showToast(R.string.common_remove_successful);
                 } else if (resource.status == Status.ERROR) {
@@ -483,9 +487,9 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
             }
         });
 
-        groupDetailViewModel.getRegularClearResult().observe(this, new Observer<Resource<Void>>() {
+        groupDetailViewModel.getRegularClearResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resultResource) {
+            public void onChanged(Resource<Boolean> resultResource) {
                 if (resultResource.status == Status.SUCCESS) {
                     ToastUtils.showToast(getString(R.string.seal_set_clean_time_success));
                     //groupDetailViewModel.requestRegularState(groupId);
@@ -520,9 +524,9 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
         });
 
         // 获取设置截屏通知结果
-        groupDetailViewModel.getSetScreenCaptureResult().observe(this, new Observer<Resource<Void>>() {
+        groupDetailViewModel.getSetScreenCaptureResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> voidResource) {
+            public void onChanged(Resource<Boolean> voidResource) {
                 if (voidResource.status == Status.SUCCESS) {
                     ToastUtils.showToast(getString(R.string.seal_set_clean_time_success));
                 } else if (voidResource.status == Status.ERROR) {
@@ -604,8 +608,7 @@ public class GroupDetailActivity extends TitleBaseActivity implements View.OnCli
         groupNameSiv.setValue(groupInfo.getName());
 
         // 是否在通讯录中
-        int isInContact = groupInfo.getIsInContact();
-        if (isInContact == 0) {
+        if (!groupInfo.isInContact()) {
             isToContactSiv.setCheckedImmediately(false);
         } else {
             isToContactSiv.setCheckedImmediately(true);

@@ -137,9 +137,9 @@ public class GroupManagementsActivity extends TitleBaseActivity {
             }
         });
         // 删除管理员
-        groupManagementViewModel.getRemoveManagerResult().observe(this, new Observer<Resource<Void>>() {
+        groupManagementViewModel.getRemoveManagerResult().observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(Resource<Void> resource) {
+            public void onChanged(Resource<Boolean> resource) {
                 // 提醒
                 if (resource.status == Status.SUCCESS) {
                     showToast(R.string.seal_group_manager_toast_remove_manager_success);

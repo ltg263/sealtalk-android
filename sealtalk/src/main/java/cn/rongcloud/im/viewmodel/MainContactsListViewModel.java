@@ -118,15 +118,13 @@ public class MainContactsListViewModel extends CommonListBaseViewModel {
                         FriendShipInfo info = new FriendShipInfo();
                         info.setDisplayName(data.getAlias());
                         info.setDisPlayNameSpelling(data.getAliasSpelling());
-                        FriendDetailInfo friendDetailInfo = new FriendDetailInfo();
-                        friendDetailInfo.setNickname(data.getName());
-                        friendDetailInfo.setId(data.getId());
-                        friendDetailInfo.setPhone(data.getPhoneNumber());
-                        friendDetailInfo.setNameSpelling(data.getNameSpelling());
-                        friendDetailInfo.setOrderSpelling(data.getOrderSpelling());
-                        friendDetailInfo.setPortraitUri(data.getPortraitUri());
-                        friendDetailInfo.setRegion(data.getRegion());
-                        info.setUser(friendDetailInfo);
+                        info.setNickname(data.getName());
+                        info.setId(data.getId());
+                        info.setPhone(data.getPhoneNumber());
+                        info.setNameSpelling(data.getNameSpelling());
+                        info.setOrderSpelling(data.getOrderSpelling());
+                        info.setPortraitUri(data.getPortraitUri());
+                        info.setRegion(data.getRegion());
                         mySelfInfo = info;
                         post(getFunctionList(), mySelfInfo, friendList);
                     }
@@ -144,7 +142,7 @@ public class MainContactsListViewModel extends CommonListBaseViewModel {
                     if (dataList != null) {
                         friendList.clear();
                         for(FriendShipInfo data : dataList){
-                            if(data.getStatus() == FriendStatus.IS_FRIEND.getStatusCode()) {
+                            if(data.getFriendshipStatus() == FriendStatus.IS_FRIEND.getStatusCode()) {
                                 friendList.add(data);
                             }
                         }

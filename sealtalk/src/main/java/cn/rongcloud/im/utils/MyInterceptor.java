@@ -3,6 +3,9 @@ package cn.rongcloud.im.utils;
 
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
@@ -55,10 +58,16 @@ public class MyInterceptor implements Interceptor {
         //使用前clone()下，避免直接消耗
         String result = buffer.clone().readString(Charset.forName("UTF-8"));
         String resultLog = "api url = "+ request.url() +" http response = "+ result;
+//        try {
+//            JSONObject object = new JSONObject(result);
+//            int code = object.getInt("code");
+//            if(code!=200) {
+//                Log.i("HTTP","错误："+ object.getString("message"));
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
         Log.d(TAG,resultLog);
-        if(!result.contains("\"code\":\"000000\",\"mesg\":\"处理成功\",\"sub_code\":\"000000\",\"sub_mesg\":\"处理成功\"")){
-//            ToastUtils.showShort(resultLog);
-        }
         return response;
     }
 

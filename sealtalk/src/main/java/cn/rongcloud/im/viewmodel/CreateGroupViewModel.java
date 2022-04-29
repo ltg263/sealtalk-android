@@ -30,7 +30,7 @@ public class CreateGroupViewModel extends AndroidViewModel {
         groupTask = new GroupTask(application);
     }
 
-    public void createGroup(String groupName, Uri groupPortrait, List<String> memberIdList) {
+    public void createGroup(String groupName, Uri groupPortrait,List<String> memberIdList) {
         LiveData<Resource<GroupResult>> createGroupResource = groupTask.createGroup(groupName, memberIdList);
         createGroupResult.addSource(createGroupResource, groupResultResource -> {
             if (groupResultResource.status != Status.LOADING) {
@@ -63,7 +63,7 @@ public class CreateGroupViewModel extends AndroidViewModel {
      */
     private void nextToUploadPortraitResult(GroupResult groupResult, Uri groupPortrait) {
         // 进行上传群组头像
-        LiveData<Resource<Void>> uploadResource = groupTask.uploadAndSetGroupPortrait(groupResult.id, groupPortrait);
+        LiveData<Resource<Boolean>> uploadResource = groupTask.uploadAndSetGroupPortrait(groupResult.id, groupPortrait);
         createGroupResult.addSource(uploadResource, resource -> {
             if (resource.status != Status.LOADING) {
                 createGroupResult.removeSource(uploadResource);

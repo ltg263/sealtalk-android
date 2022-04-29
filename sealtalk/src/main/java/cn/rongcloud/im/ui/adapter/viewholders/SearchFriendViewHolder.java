@@ -44,7 +44,7 @@ public class SearchFriendViewHolder extends BaseViewHolder<SearchFriendModel> {
     public void update(SearchFriendModel searchFriendModel) {
 
         friendShipInfo = searchFriendModel.getBean();
-        FriendDetailInfo info = friendShipInfo.getUser();
+        FriendShipInfo info = friendShipInfo;
 
         if (!TextUtils.isEmpty(friendShipInfo.getDisplayName())) {
             llDescription.setVisibility(View.VISIBLE);

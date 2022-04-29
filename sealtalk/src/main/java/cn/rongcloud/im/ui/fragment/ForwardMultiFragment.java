@@ -395,7 +395,7 @@ public class ForwardMultiFragment extends BaseFragment implements SearchableInte
     private List<String> getSelectFriendIds() {
         List<String> ids = new ArrayList<>();
         for (FriendShipInfo friend : selectedFriends) {
-            ids.add(friend.getUser().getId());
+            ids.add(friend.getId());
         }
         return ids;
     }
@@ -421,7 +421,7 @@ public class ForwardMultiFragment extends BaseFragment implements SearchableInte
      */
     private boolean isContainsFriend(FriendShipInfo friendShipInfo) {
         for (FriendShipInfo info : selectedFriends) {
-            if (friendShipInfo.getUser().getId().equals(info.getUser().getId())) {
+            if (friendShipInfo.getId().equals(info.getId())) {
                 selectedFriends.remove(info);
                 return true;
             }

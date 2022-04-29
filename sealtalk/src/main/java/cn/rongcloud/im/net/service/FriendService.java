@@ -90,6 +90,7 @@ public interface FriendService {
     @POST(SealTalkUrl.DELETE_FREIND)
     LiveData<Result> deleteFriend(@Body RequestBody body);
 
+
     /**
      * 获取手机通讯录中的人员信息
      *
@@ -106,10 +107,10 @@ public interface FriendService {
      * @return
      */
     @POST(SealTalkUrl.SET_FRIEND_DESCRIPTION)
-    LiveData<Result<Void>> setFriendDescription(@Body RequestBody body);
+    LiveData<Result<Boolean>> setFriendDescription(@Body RequestBody body);
 
-    @POST(SealTalkUrl.GET_FRIEND_DESCRIPTION)
-    LiveData<Result<FriendDescription>> getFriendDescription(@Body RequestBody body);
+    @GET(SealTalkUrl.GET_FRIEND_DESCRIPTION)
+    LiveData<Result<FriendDescription>> getFriendDescription(@Query("friendId") String friendId);
 
     /**
      * 批量删除好友

@@ -16,8 +16,8 @@ public class Resource<T> {
     @Nullable
     public final String message;
 
-    public final int code;
 
+    public final int code;
     @Nullable
     public final T data;
 

@@ -4,33 +4,25 @@ package cn.rongcloud.im.model;
  * 请求上传图片结果
  */
 public class UploadTokenResult {
+
     /**
      * 云存储类型
      */
-    private String target;
-    /**
-     * 云存储图片地址域名
-     */
-    private String domain;
+    private String expire;
     /**
      * 云存储 Token
      */
     private String token;
-
-    public String getTarget() {
-        return target;
+    /**
+     * 云存储图片地址域名
+     */
+    private String bucketDomain;
+    public String getExpire() {
+        return expire;
     }
 
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
-    public String getDomain() {
-        return domain;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
+    public void setExpire(String expire) {
+        this.expire = expire;
     }
 
     public String getToken() {
@@ -39,5 +31,13 @@ public class UploadTokenResult {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getBucketDomain() {
+        return bucketDomain;
+    }
+
+    public void setBucketDomain(String bucketDomain) {
+        this.bucketDomain = bucketDomain;
     }
 }

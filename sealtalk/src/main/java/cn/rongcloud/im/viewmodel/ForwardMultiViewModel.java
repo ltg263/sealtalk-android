@@ -64,7 +64,7 @@ public class ForwardMultiViewModel extends AndroidViewModel {
     }
 
     public void switchCheckFriend(FriendShipInfo friendShipInfo) {
-        String id = friendShipInfo.getUser().getId();
+        String id = friendShipInfo.getId();
         if (checkedFriendList.contains(id)) {
             checkedFriendList.remove(id);
         } else {
